@@ -1,0 +1,14 @@
+{
+  "name": "JPoker",
+  "version": "0.0.0",
+  "description": "Just money ....",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Sergii Shynkaruk",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.1.0"
+  }
+}
