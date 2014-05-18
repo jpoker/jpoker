@@ -12,8 +12,8 @@ describe('RootController', function() {
 
     it('createSessionShouldReturnSessionWithGivenScrumMasterName', function() {
         var controller = new RootController();
-        session = controller.createSession("Vasya Pupkin");
-        assert.equal("Vasya Pupkin", session.scrumMasterName);
+        session = controller.createSession('Vasya Pupkin');
+        assert.equal('Vasya Pupkin', session.scrumMasterName);
     });
 
 })

@@ -9,8 +9,8 @@ describe('TeamMember', function() {
     });
 
     it('shouldHaveGivenNameWhenCreated', function() {
-        var teamMember = new TeamMember("Vasya");
-        assert.equal("Vasya", teamMember.name);
+        var teamMember = new TeamMember('Vasya');
+        assert.equal('Vasya', teamMember.name);
     });
 
 })

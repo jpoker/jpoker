@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var TeamMember = require('./TeamMember.js').TeamMember;
 
@@ -7,11 +7,11 @@ function TeamMemberController(teamMember) {
 }
 
 TeamMemberController.prototype.provideEstimate = function(exposedCard) {
-    if (exposedCard == null)
-        throw new Error("empty exposedCard");
+    if (exposedCard === null)
+        throw new Error('empty exposedCard');
 
-    if (this.teamMember.exposedCard != null)
-        throw new Error("exposedCard already provided");
+    if (this.teamMember.exposedCard !== null)
+        throw new Error('exposedCard already provided');
 
     this.teamMember.exposedCard = exposedCard;
 };

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function TeamMember(name) {
     this.name = name;

@@ -15,8 +15,8 @@ describe('SessionController', function() {
     it('joinSessionShouldReturnTeamMemberWithGivenName', function() {
         var session = new Session();
         var controller = new SessionController(session);
-        var teamMember = controller.joinSession("Petya Pupkin");
-        assert.equal("Petya Pupkin", teamMember.name);
+        var teamMember = controller.joinSession('Petya Pupkin');
+        assert.equal('Petya Pupkin', teamMember.name);
     });
 
 })
