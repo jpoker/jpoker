@@ -1,4 +1,5 @@
-exports.Session = function(scrumMasterName) {
+function Session(scrumMasterName) {
     this.scrumMasterName = scrumMasterName;
 };
 
+exports.Session = Session;
