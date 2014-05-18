@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+(function () {
 
 function TeamMember(name) {
     this.name = name;
@@ -6,3 +8,5 @@ function TeamMember(name) {
 }
 
 exports.TeamMember = TeamMember;
+
+}());
