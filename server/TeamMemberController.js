@@ -1,5 +1,7 @@
 'use strict';
 
+(function () {
+
 var TeamMember = require('./TeamMember.js').TeamMember;
 
 function TeamMemberController(teamMember) {
@@ -21,3 +23,5 @@ TeamMemberController.prototype.recallEstimate = function() {
 };
 
 exports.TeamMemberController = TeamMemberController;
+
+}());

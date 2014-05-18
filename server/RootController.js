@@ -1,5 +1,7 @@
 'use strict';
 
+(function () {
+
 var Session = require('./Session.js').Session;
 
 function RootController() {
@@ -13,3 +15,5 @@ RootController.prototype.createSession = function(scrumMasterName) {
 };
 
 exports.RootController = RootController;
+
+}());
