@@ -4,7 +4,7 @@ var SessionController = require('../server/SessionController.js').SessionControl
 
 describe('SessionController', function() {
 
-    it('joinSessionShouldThrowWhenTeamMemberNameIsEmpty', function() {
+    it('joinSession should throw when team member name is empty', function() {
         assert.throws(function() {
             var session = new Session();
             var controller = new SessionController(session);
@@ -12,7 +12,7 @@ describe('SessionController', function() {
             }, Error);
     });
 
-    it('joinSessionShouldReturnTeamMemberWithGivenName', function() {
+    it('joinSession should return team member with given name', function() {
         var session = new Session();
         var controller = new SessionController(session);
         var teamMember = controller.joinSession('Petya Pupkin');

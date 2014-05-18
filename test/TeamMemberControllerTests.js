@@ -4,14 +4,14 @@ var TeamMemberController = require('../server/TeamMemberController.js').TeamMemb
 
 describe('TeamMemberController', function() {
 
-    it('shouldChangeEstimateToGivenWhenProvided', function() {
+    it('should change estimate to given when provided', function() {
         var teamMember = new TeamMember();
         var controller = new TeamMemberController(teamMember);
         controller.provideEstimate(13);
         assert.equal(13, teamMember.exposedCard);
     });
 
-    it('shouldRemoveEstimateWhenRecalled', function() {
+    it('should remove estimate when recalled', function() {
         var teamMember = new TeamMember();
         var controller = new TeamMemberController(teamMember);
         controller.provideEstimate(13);
@@ -19,7 +19,7 @@ describe('TeamMemberController', function() {
         assert.equal(null, teamMember.exposedCard);
     });
 
-    it('shouldThrowWhenEmptyCardProvided', function() {
+    it('should throw when empty card provided', function() {
         var teamMember = new TeamMember();
         var controller = new TeamMemberController(teamMember);
         assert.throws(function() {
@@ -27,7 +27,7 @@ describe('TeamMemberController', function() {
             });
     });
 
-    it('shouldThrowWhenEstimateIsAlreadyProvided', function() {
+    it('should throw when estimate is already provided', function() {
         var teamMember = new TeamMember();
         var controller = new TeamMemberController(teamMember);
         controller.provideEstimate(13);
