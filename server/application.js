@@ -10,7 +10,7 @@ server.get('/', function(req, res) {
     res.redirect('/static/index.html');
 });
 
-server.get('/newSession', function(req, res) {
+server.post('/sessions', function(req, res) {
     res.send('session created!');
 });
 
