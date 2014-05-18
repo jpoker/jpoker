@@ -10,4 +10,8 @@ TeamMemberController.prototype.provideEstimate = function(exposedCard) {
     this.teamMember.exposedCard = exposedCard;
 };
 
+TeamMemberController.prototype.recallEstimate = function() {
+    this.teamMember.exposedCard = null;
+};
+
 exports.TeamMemberController = TeamMemberController;

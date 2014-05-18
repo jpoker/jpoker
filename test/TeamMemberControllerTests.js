@@ -11,4 +11,12 @@ describe('TeamMemberController', function() {
         assert.equal(13, teamMember.exposedCard);
     });
 
+    it('shouldRemoveEstimateWhenRecalled', function() {
+        var teamMember = new TeamMember();
+        var controller = new TeamMemberController(teamMember);
+        controller.provideEstimate(13);
+        controller.recallEstimate();
+        assert.equal(null, teamMember.exposedCard);
+    });
+
 })
