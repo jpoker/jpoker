@@ -1,3 +1,5 @@
+"use strict";
+
 var Session = require('./Session.js').Session;
 var TeamMember = require('./TeamMember.js').TeamMember;
 

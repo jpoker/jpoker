@@ -1,3 +1,5 @@
+"use strict";
+
 function Session(scrumMasterName) {
     this.scrumMasterName = scrumMasterName;
     this.teamMembers = [];

@@ -1,5 +1,3 @@
-"use strict"
-
 var assert = require('assert');
 var Session = require('../server/Session.js').Session;
 var SessionController = require('../server/SessionController.js').SessionController;

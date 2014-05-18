@@ -1,3 +1,5 @@
+"use strict";
+
 var Session = require('./Session.js').Session;
 
 function RootController() {
