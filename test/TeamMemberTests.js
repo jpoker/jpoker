@@ -8,4 +8,9 @@ describe('TeamMember', function() {
         assert.equal(null, teamMember.exposedCard);
     });
 
+    it('shouldHaveGivenNameWhenCreated', function() {
+        var teamMember = new TeamMember("Vasya");
+        assert.equal("Vasya", teamMember.name);
+    });
+
 })
