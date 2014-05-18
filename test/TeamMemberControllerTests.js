@@ -19,4 +19,12 @@ describe('TeamMemberController', function() {
         assert.equal(null, teamMember.exposedCard);
     });
 
+    it('shouldThrowWhenEmptyCardProvided', function() {
+        var teamMember = new TeamMember();
+        var controller = new TeamMemberController(teamMember);
+        assert.throws(function() {
+            controller.provideEstimate(null);
+            });
+    });
+
 })

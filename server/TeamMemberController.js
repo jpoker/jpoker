@@ -7,6 +7,9 @@ function TeamMemberController(teamMember) {
 }
 
 TeamMemberController.prototype.provideEstimate = function(exposedCard) {
+    if (exposedCard == null)
+        throw new Error("empty exposedCard");
+
     this.teamMember.exposedCard = exposedCard;
 };
 
