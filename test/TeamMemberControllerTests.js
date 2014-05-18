@@ -27,4 +27,13 @@ describe('TeamMemberController', function() {
             });
     });
 
+    it('shouldThrowWhenEstimateIsAlreadyProvided', function() {
+        var teamMember = new TeamMember();
+        var controller = new TeamMemberController(teamMember);
+        controller.provideEstimate(13);
+        assert.throws(function() {
+            controller.provideEstimate(14);
+            });
+    });
+
 })

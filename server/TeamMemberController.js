@@ -10,6 +10,9 @@ TeamMemberController.prototype.provideEstimate = function(exposedCard) {
     if (exposedCard == null)
         throw new Error("empty exposedCard");
 
+    if (this.teamMember.exposedCard != null)
+        throw new Error("exposedCard already provided");
+
     this.teamMember.exposedCard = exposedCard;
 };
 
