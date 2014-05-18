@@ -1,7 +1,4 @@
-
-function Session(scrumMasterName) {
-    this.scrumMasterName = scrumMasterName;
-};
+var Session = require('./Session.js').Session;
 
 function RootController() {
 }
