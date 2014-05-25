@@ -21,13 +21,12 @@ Card.prototype.getDescription = function () {
     return this.description;
 };
 
-function Exposition(name, description, basic_state){
-    this.setName(name);
-    this.setDescription(description);
-    this.state = basic_state;
-};
+function Exposition(name, description, state) {
+    Card.call(this, name, description);
+    this.state = state;
+}
 
-Exposition.__proto__ = Card;
+Exposition.prototype = new Card;
 
 exports.Card = Card;
 exports.Exposition = Exposition;

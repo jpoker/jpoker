@@ -1,6 +1,9 @@
 var assert = require('assert');
 var Card = require('../server/Card.js').Card;
 var Exposition = require('../server/Card.js').Exposition;
+var Session = require('../server/Session.js').Session;
+var SessionController = require('../server/SessionController.js').SessionController;
+var TeamMemberController = require('../server/TeamMemberController.js').TeamMemberController;
 
 describe('Selection', function () {
 
@@ -12,19 +15,22 @@ describe('Selection', function () {
         }, Error);
     });
 
-    it('afterUserSelectsACardExpositionShouldBeEqual', function () {
+    it('afterUserSelectsCardExpositionShouldBeEqual', function () {
         var session = new Session();
-        var deck = [new Card('Vasia', ''), new Card('Petia', ''), new Card('Oleg', '')];
+        var deck = [new Card('fibonacci_0', '')
+                  , new Card('fibonacci_1', '')
+                  , new Card('fibonacci_2', '')
+                  , new Card('unsure', '')
+                  , new Card('coffee_break', '')];
 
         session.setDeck(deck);
-        var controller = new SessionController(session);
 
-
-
-
-
-
-        assert.equal( ,);
+        var sessionController = new SessionController(session);
+        var team_member = sessionController.joinSession('Jon');
+        var teamMemberController = new TeamMemberController(team_member);
+        var exposedCard = session.getCardByName('coffee_break');
+        teamMemberController.provideEstimate(exposedCard);
+        assert.equal(team_member.getExposedCart(), exposedCard);
     });
 
 });

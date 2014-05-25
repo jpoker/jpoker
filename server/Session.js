@@ -24,8 +24,22 @@ Session.prototype.getCardByName = function (name) {
     return null;
 };
 
-Session.prototype.updateExposition = function (card) {
-    this.team
+Session.prototype.updateExposition = function (user, card) {
+    for (var i = 0; i < this.teamMembers.length; i++) {
+        if (this.teamMembers[i] == user) {
+            this.teamMembers[i].exposedCard = card;
+            return;
+        }
+    }
 }
+
+Session.prototype.getExpositionName = function (user) {
+    for (var i = 0; i < this.teamMembers.length; i++) {
+        if (this.teamMembers[i] == user) {
+            return this.teamMembers[i].exposedCard.getName();
+        }
+    }
+}
+
 
 exports.Session = Session;

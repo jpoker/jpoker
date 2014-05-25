@@ -24,9 +24,9 @@ SessionController.prototype.getCardByName = function (name) {
     return this.session.getCardByName(name);
 };
 
-SessionController.prototype.estimate = function (name) {
+SessionController.prototype.estimate = function (userName, cardName) {
     this.canEstimate();
-    this.session.updateExposition(this.session.getCardByName(name));
+    this.session.updateExposition(userName, this.session.getCardByName(cardName));
 };
 
 
