@@ -16,11 +16,20 @@ function db_open()
             console.log('saved');
     });
 
-    User.find({name: 'Vasya'}, function(err, records) {
+    User.find({name: 'Vasya'}, function (err, records) {
         if (records === null)
             console.log('nothing found');
-        else
-            console.log(records);
+        else {
+            if (records.length === 1)
+                console.log('Vasya\'s age is ', records[0].age);
+            else
+                console.log(records);
+        }
+    });
+
+    User.remove({name: 'Vasya'}, function (err) {
+        if (err !== null)
+            console.log('cleaned-up');
     });
 }
 
