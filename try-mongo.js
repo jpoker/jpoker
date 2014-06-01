@@ -8,8 +8,20 @@ function db_open()
     var userSchema = new mongoose.Schema({name: String, age: Number});
     var User = mongoose.model('User', userSchema);
 
-    console.log(User.find({name: 'Vasya'}));
-    console.log('finished');
+    var vasya = new User({name: 'Vasya', age: 25});
+    vasya.save(function (err, record) {
+        if (err !== null)
+            console.log('error saving an entry: ' + err);
+        else
+            console.log('saved');
+    });
+
+    User.find({name: 'Vasya'}, function(err, records) {
+        if (records === null)
+            console.log('nothing found');
+        else
+            console.log(records);
+    });
 }
 
 try
@@ -19,6 +31,7 @@ try
     var db = mongoose.connection;
     db.on('error', db_err);
     db.once('open', db_open);
+    
 }
 catch (err)
 {
