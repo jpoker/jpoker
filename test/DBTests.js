@@ -19,5 +19,21 @@ describe('DB', function() {
         assert.notEqual(first.id, second.id);
     });
 
+    it.skip('should query same session by id when created', function() {
+        var db = FakeDB();
+        var created = db.createSession();
+
+        var queried = db.getSessionByID(created.id);
+
+        assert.strictEqual(created, queried);
+    });
+
+    it('should return null when session not found', function() {
+        var db = new FakeDB();
+
+        var queried = db.getSessionByID('non-existent-ID');
+
+        assert.equal(null, queried);
+    });
 
 })
