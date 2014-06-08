@@ -9,8 +9,8 @@ function FakeDB() {
     this.counter = 0;
 }
 
-FakeDB.prototype.createSession = function() {
-    var session = new Session('');
+FakeDB.prototype.createSession = function(scrumMasterName) {
+    var session = new Session(scrumMasterName);
     var id = this.counter++;
     session.id = id;
 

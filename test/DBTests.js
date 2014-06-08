@@ -36,4 +36,13 @@ describe('DB', function() {
         assert.equal(null, queried);
     });
 
+    it("should return session with specified scrum master's name when created", function() {
+        var scrumMasterName = 'Scrum Master'
+        var db = new FakeDB();
+
+        var session = db.createSession(scrumMasterName);
+
+        assert.equal(scrumMasterName, session.scrumMasterName);
+    });
+
 })
