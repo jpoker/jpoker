@@ -5,44 +5,40 @@ var server = module.exports = express();//express.createServer()
 var PORT = 9372;
 
 var AppController = require('./AppController.js').AppController;
+var SessionController = require('./SessionController.js').SessionController;
 var FakeDB = require('./FakeDB.js').FakeDB;
 
 var db = new FakeDB();
-var appController = new AppController(db); // use it in routes
+var appController = new AppController(db);
 
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
-//include the router middleware
-server.use(server.router);
+
 
 //root of the website
 server.get('/', function(req, res) {
     res.redirect('/static/index.html');
 });
 
-server.post('/session/:id', function(req, res) {
-    res.send('session created!' + req.params.session_id);
+server.post('/sessions/new/:master_id', function (req, res) {
+    res.send('session created! ' +
+        appController.createSession(req.params.master_id).id);
 });
 
-server.post('/user/:id', function (req, res) {
-    res.send('user added' + req.params.user_id);
+server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
+    var sessionController = new SessionController(appController.getSessionByID(req.params.session_id), db);
+    var addedUser = sessionController.joinSession(req.params.user_id);
+
+    res.send('user ' + addedUser.name +
+        ' added to session ' + req.params.session_id);
 });
 
-server.get('', function (req, res) {
-    res.send('connected users' + req.params.connected_users);
+server.get('/session/:id/users/:info', function (req, res) {
+
+
+    res.send('connected users ' + req.params.info);
 });
-
-
-server.index = {
-    json : function(req, res){
-        res.send(''); //TODO: compose a response 
-    }
-};
-
-server.default = function (req, res) {
-    res.send('Unsupported format "' + req.format + '"', 406);
-};
 
 
 server.listen(PORT);
