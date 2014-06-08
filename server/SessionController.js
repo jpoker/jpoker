@@ -11,7 +11,7 @@ function SessionController(session) {
 
 SessionController.prototype.joinSession = function(teamMemberName) {
     if (teamMemberName === '')
-        throw new Error('not implemented!');
+        throw new Error('team member\'s name cannot be empty');
 
     return new TeamMember(teamMemberName);
 };
