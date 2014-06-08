@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var AppController = require('../server/AppController.js').AppController;
 var Session = require('../server/Session.js').Session;
 var SessionController = require('../server/SessionController.js').SessionController;

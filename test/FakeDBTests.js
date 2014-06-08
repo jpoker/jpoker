@@ -10,7 +10,7 @@ describe('DB', function() {
     it('should assign session ID when created', function() {
         var session = db.createSession();
 
-        assert.notEqual(null, session.id);
+        assert.isNotNull(session.id);
     });
 
     it('should assign unique IDs when two sessions created', function() {
@@ -30,7 +30,7 @@ describe('DB', function() {
     it('should return null when session not found', function() {
         var queried = db.getSessionByID('non-existent-ID');
 
-        assert.equal(null, queried);
+        assert.isNull(queried);
     });
 
     it("should return session with specified scrum master's name when created", function() {
@@ -45,7 +45,7 @@ describe('DB', function() {
         var session = db.createSession();
         var user = db.createUser('name', session.id);
 
-        assert.notEqual(null, user.id);
+        assert.isNotNull(user.id);
     });
 
     it('should assign unique IDs when two users created', function() {
@@ -67,7 +67,7 @@ describe('DB', function() {
         var session = db.createSession();
         var user = db.getUserByID('non-existent-user', session.id);
 
-        assert.equal(null, user);
+        assert.isNull(user);
     });
 
     it('should return same user when found', function() {
@@ -85,14 +85,14 @@ describe('DB', function() {
 
         var queried = db.getUserByID(created.id, 'non-existent-session');
 
-        assert.equal(null, queried);
+        assert.isNull(queried);
     });
 
     it('should return null when attempting to create user in non-existing session', function() {
         var session = db.createSession();
         var user = db.createUser('name', 'non-existent-session');
 
-        assert.equal(null, user);
+        assert.isNull(user);
     });
 
     it('should return user list when users created', function() {
