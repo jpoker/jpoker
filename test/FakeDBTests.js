@@ -61,7 +61,7 @@ describe('DB', function() {
     });
 
     it('should return null when user not found', function() {
-        var user = db.findUserByID('non-existent-user');
+        var user = db.getUserByID('non-existent-user');
 
         assert.equal(null, user);
     });
@@ -69,7 +69,7 @@ describe('DB', function() {
     it('should return same user when found', function() {
         var created = db.createUser();
 
-        var queried = db.findUserByID(created.id);
+        var queried = db.getUserByID(created.id);
 
         assert.strictEqual(created, queried);
     });

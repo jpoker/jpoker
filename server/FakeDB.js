@@ -35,7 +35,7 @@ FakeDB.prototype.createUser = function(name) {
     return user;
 }
 
-FakeDB.prototype.findUserByID = function(id) {
+FakeDB.prototype.getUserByID = function(id) {
     return this.users[id];
 }
 
