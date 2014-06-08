@@ -31,8 +31,8 @@ FakeDB.prototype.createUser = function(name, session_id) {
         return null;
 
     var user = new TeamMember(name);
-    var id = this.counter++;
-    user.id = id.toString();
+    var id = (this.counter++).toString();
+    user.id = id;
 
     this.users[session_id][id] = user;
 

@@ -28,5 +28,13 @@ describe('AppController', function() {
         assert.lengthOf(user_list, 1);
     })
 
+    it('should return session by ID when created', function() {
+        var created = controller.createSession('Master');
+
+        var queried = controller.getSessionByID(created.id);
+
+        assert.equal(created, queried);
+    })
+
 
 })
