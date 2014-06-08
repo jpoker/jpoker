@@ -23,6 +23,10 @@ FakeDB.prototype.getSessionByID = function(id) {
     return this.sessions[id];
 }
 
+FakeDB.prototype.createUser = function() {
+    return {id: 1};
+}
+
 exports.FakeDB = FakeDB;
 
 }());

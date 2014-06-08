@@ -41,4 +41,10 @@ describe('DB', function() {
         assert.equal(scrumMasterName, session.scrumMasterName);
     });
 
+    it('should assign user ID when created', function() {
+        var user = db.createUser();
+
+        assert.notEqual(null, user.id);
+    });
+
 })
