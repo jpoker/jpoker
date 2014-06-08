@@ -1,23 +1,42 @@
+var http = require('http');
 var express = require('express');
 var morgan = require('morgan');
-var server = module.exports = express();
+var server = module.exports = express();//express.createServer()
 var PORT = 9372;
 
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
+//include the router middleware
+server.use(server.router);
+
+//root of the website
 server.get('/', function(req, res) {
     res.redirect('/static/index.html');
 });
 
-server.post('/sessions', function(req, res) {
-    res.send('session created!');
+server.post('/session/:id', function(req, res) {
+    res.send('session created!' + req.params.session_id);
+});
+
+server.post('/user/:id', function (req, res) {
+    res.send('user added' + req.params.user_id);
+});
+
+server.get('', function (req, res) {
+    res.send('connected users' + req.params.connected_users);
 });
 
 
+server.index = {
+    json : function(req, res){
+        res.send(''); //TODO: compose a response 
+    }
+};
+
+server.default = function (req, res) {
+    res.send('Unsupported format "' + req.format + '"', 406);
+};
+
 
 server.listen(PORT);
-<<<<<<< HEAD
-C:\Users\Sergii\Polymer\bower_components\core-input\application.js
-=======
->>>>>>> d92f6afb81971fbccaa60fa447372ad22fa9f79b
