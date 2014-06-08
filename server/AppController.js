@@ -10,7 +10,7 @@ function AppController(db) {
 
 AppController.prototype.createSession = function(scrumMasterName) {
         if (scrumMasterName === '')
-            throw new Error('not implemented!');
+            throw new Error('scrum master\'s name cannot be empty!');
 
         return this.db.createSession(scrumMasterName);
 };
