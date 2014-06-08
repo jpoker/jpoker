@@ -17,6 +17,7 @@ FakeDB.prototype.createSession = function(scrumMasterName) {
     session.id = id;
 
     this.sessions[id] = session;
+    this.users[id] = {}
 
     return session;
 }
@@ -25,18 +26,20 @@ FakeDB.prototype.getSessionByID = function(id) {
     return this.sessions[id];
 }
 
-FakeDB.prototype.createUser = function(name) {
+FakeDB.prototype.createUser = function(name, session_id) {
     var user = new TeamMember(name);
     var id = this.counter++;
     user.id = id;
 
-    this.users[id] = user;
+    this.users[session_id][id] = user;
 
     return user;
 }
 
-FakeDB.prototype.getUserByID = function(id) {
-    return this.users[id];
+FakeDB.prototype.getUserByID = function(user_id, session_id) {
+    if (!(session_id in this.users))
+        return null;
+    return this.users[session_id][user_id];
 }
 
 exports.FakeDB = FakeDB;

@@ -42,36 +42,50 @@ describe('DB', function() {
     });
 
     it('should assign user ID when created', function() {
-        var user = db.createUser();
+        var session = db.createSession();
+        var user = db.createUser('name', session.id);
 
         assert.notEqual(null, user.id);
     });
 
     it('should assign unique IDs when two users created', function() {
-        var first = db.createUser(), second = db.createUser();
+        var session = db.createSession();
+        var first = db.createUser('name', session.id), second = db.createUser('name', session.id);
 
         assert.notEqual(first.id, second.id);
     });
 
     it('should have specified user name when created', function() {
+        var session = db.createSession();
         var userName = 'Basil Pupkine';
-        var user = db.createUser(userName);
+        var user = db.createUser(userName, session.id);
 
         assert.equal(userName, user.name);
     });
 
     it('should return null when user not found', function() {
-        var user = db.getUserByID('non-existent-user');
+        var session = db.createSession();
+        var user = db.getUserByID('non-existent-user', session.id);
 
         assert.equal(null, user);
     });
 
     it('should return same user when found', function() {
-        var created = db.createUser();
+        var session = db.createSession();
+        var created = db.createUser('name', session.id);
 
-        var queried = db.getUserByID(created.id);
+        var queried = db.getUserByID(created.id, session.id);
 
         assert.strictEqual(created, queried);
+    });
+
+    it('should return null when user is not in the session', function() {
+        var session = db.createSession();
+        var created = db.createUser('name', session.id);
+
+        var queried = db.getUserByID(created.id, 'non-existent-session');
+
+        assert.equal(null, queried);
     });
 
 })
