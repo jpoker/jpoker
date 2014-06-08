@@ -88,4 +88,11 @@ describe('DB', function() {
         assert.equal(null, queried);
     });
 
+    it('should return null when attempting to create user in non-existing session', function() {
+        var session = db.createSession();
+        var user = db.createUser('name', 'non-existent-session');
+
+        assert.equal(null, user);
+    });
+
 })

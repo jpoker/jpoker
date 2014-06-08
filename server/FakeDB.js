@@ -27,6 +27,9 @@ FakeDB.prototype.getSessionByID = function(id) {
 }
 
 FakeDB.prototype.createUser = function(name, session_id) {
+    if (!(session_id in this.users))
+        return null;
+
     var user = new TeamMember(name);
     var id = this.counter++;
     user.id = id;
@@ -39,6 +42,7 @@ FakeDB.prototype.createUser = function(name, session_id) {
 FakeDB.prototype.getUserByID = function(user_id, session_id) {
     if (!(session_id in this.users))
         return null;
+
     return this.users[session_id][user_id];
 }
 
