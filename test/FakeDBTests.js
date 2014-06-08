@@ -104,4 +104,10 @@ describe('DB', function() {
         assert.includeMembers([first.id, second.id], user_list);
     });
 
+    it('should return empty user list when non-existing session', function() {
+        var user_list = db.getUserIDsBySessionID('non-existing-session');
+
+        assert.lengthOf(user_list, 0);
+    })
+
 })
