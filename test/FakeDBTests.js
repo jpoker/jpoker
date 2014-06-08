@@ -58,6 +58,12 @@ describe('DB', function() {
         var user = db.createUser(userName);
 
         assert.equal(userName, user.name);
-    })
+    });
+
+    it('should return null when user not found', function() {
+        var user = db.findUserByID('non-existent-user');
+
+        assert.equal(null, user);
+    });
 
 })
