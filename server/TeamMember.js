@@ -1,4 +1,7 @@
-"use strict";
+'use strict';
+
+(function () {
+
 var Exposition = require('./Card.js').Exposition;
 
 function TeamMember(name) {
@@ -11,3 +14,5 @@ TeamMember.prototype.getExposedCart = function () {
 };
 
 exports.TeamMember = TeamMember;
+
+}());

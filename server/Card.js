@@ -1,3 +1,7 @@
+'use strict';
+
+(function () {
+
 function Card(name, description) {
     this.name = name;
     this.description = description;
@@ -31,3 +35,4 @@ Exposition.prototype = new Card;
 exports.Card = Card;
 exports.Exposition = Exposition;
 
+}());

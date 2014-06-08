@@ -17,4 +17,7 @@ server.post('/sessions', function(req, res) {
 
 
 server.listen(PORT);
+<<<<<<< HEAD
 C:\Users\Sergii\Polymer\bower_components\core-input\application.js
+=======
+>>>>>>> d92f6afb81971fbccaa60fa447372ad22fa9f79b

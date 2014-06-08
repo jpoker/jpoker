@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+(function () {
 
 function Session(scrumMasterName) {
     this.scrumMasterName = scrumMasterName;
@@ -43,3 +45,5 @@ Session.prototype.getExpositionName = function (user) {
 
 
 exports.Session = Session;
+
+}());
