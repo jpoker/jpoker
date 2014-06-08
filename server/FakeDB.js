@@ -24,7 +24,7 @@ FakeDB.prototype.getSessionByID = function(id) {
 }
 
 FakeDB.prototype.createUser = function() {
-    return {id: 1};
+    return {id: this.counter++};
 }
 
 exports.FakeDB = FakeDB;

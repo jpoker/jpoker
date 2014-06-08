@@ -47,4 +47,10 @@ describe('DB', function() {
         assert.notEqual(null, user.id);
     });
 
+    it('should assign unique IDs when two users created', function() {
+        var first = db.createUser(), second = db.createUser();
+
+        assert.notEqual(first.id, second.id);
+    });
+
 })
