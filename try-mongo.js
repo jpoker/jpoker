@@ -13,7 +13,7 @@ function db_open()
         if (err !== null)
             console.log('error saving an entry: ' + err);
         else
-            console.log('saved');
+            console.log('saved with id ' + record._id);
     });
 
     User.find({name: 'Vasya'}, function (err, records) {
