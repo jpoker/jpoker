@@ -53,4 +53,11 @@ describe('DB', function() {
         assert.notEqual(first.id, second.id);
     });
 
+    it('should have specified user name when created', function() {
+        var userName = 'Basil Pupkine';
+        var user = db.createUser(userName);
+
+        assert.equal(userName, user.name);
+    })
+
 })

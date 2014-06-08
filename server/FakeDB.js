@@ -3,9 +3,11 @@
 (function() {
 
 var Session = require('./Session.js').Session;
+var TeamMember = require('./TeamMember.js').TeamMember;
 
 function FakeDB() {
     this.sessions = {};
+    this.users = {};
     this.counter = 0;
 }
 
@@ -23,8 +25,14 @@ FakeDB.prototype.getSessionByID = function(id) {
     return this.sessions[id];
 }
 
-FakeDB.prototype.createUser = function() {
-    return {id: this.counter++};
+FakeDB.prototype.createUser = function(name) {
+    var user = new TeamMember(name);
+    var id = this.counter++;
+    user.id = id;
+
+    this.users[id] = user;
+
+    return user;
 }
 
 exports.FakeDB = FakeDB;
