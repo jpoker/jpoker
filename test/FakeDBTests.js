@@ -66,4 +66,12 @@ describe('DB', function() {
         assert.equal(null, user);
     });
 
+    it('should return same user when found', function() {
+        var created = db.createUser();
+
+        var queried = db.findUserByID(created.id);
+
+        assert.strictEqual(created, queried);
+    });
+
 })
