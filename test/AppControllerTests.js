@@ -1,17 +1,21 @@
 var assert = require('assert');
-var RootController = require('../server/RootController.js').RootController;
+var AppController = require('../server/AppController.js').AppController;
+var FakeDB = require('../server/FakeDB.js').FakeDB;
 
-describe('RootController', function() {
+describe('AppController', function() {
+
+    beforeEach(function() {
+        var db = new FakeDB();
+        controller = new AppController(db);
+    });
 
     it('createSession should throw when scrum master name is empty', function() {
         assert.throws(function() {
-            var controller = new RootController();
-            controller.createSession("");
+            controller.createSession('');
             }, Error);
     });
 
     it('createSession should return session with given scrum master name', function() {
-        var controller = new RootController();
         session = controller.createSession('Vasya Pupkin');
         assert.equal('Vasya Pupkin', session.scrumMasterName);
     });

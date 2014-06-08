@@ -4,12 +4,14 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node ./server/application.js"
   },
   "author": "Sergii Shynkaruk",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.1.0"
+    "express": "^4.1.0",
+    "mongoose": "^3.8.11"
   },
   "devDependencies": {
     "chai": "^1.9.1",
