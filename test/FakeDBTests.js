@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('DB', function() {
@@ -93,6 +93,15 @@ describe('DB', function() {
         var user = db.createUser('name', 'non-existent-session');
 
         assert.equal(null, user);
+    });
+
+    it('should return user list when users created', function() {
+        var session = db.createSession();
+        var first = db.createUser('first', session.id), second = db.createUser('second', session.id);
+
+        var user_list = db.getUserIDsBySessionID(session.id);
+
+        assert.includeMembers([first.id, second.id], user_list);
     });
 
 })
