@@ -19,8 +19,8 @@ describe('DB', function() {
         assert.notEqual(first.id, second.id);
     });
 
-    it.skip('should query same session by id when created', function() {
-        var db = FakeDB();
+    it('should return same session by id when created', function() {
+        var db = new FakeDB();
         var created = db.createSession();
 
         var queried = db.getSessionByID(created.id);
