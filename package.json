@@ -4,7 +4,8 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node ./server/application.js"
   },
   "author": "Sergii Shynkaruk",
   "license": "MIT",
