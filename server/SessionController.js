@@ -5,15 +5,16 @@
 var Session = require('./Session.js').Session;
 var TeamMember = require('./TeamMember.js').TeamMember;
 
-function SessionController(session) {
+function SessionController(session, db) {
     this.session = session;
+    this.db = db;
 }
 
 SessionController.prototype.joinSession = function(teamMemberName) {
     if (teamMemberName === '')
-        throw new Error('not implemented!');
+        throw new Error('team member\'s name cannot be empty');
 
-    return new TeamMember(teamMemberName);
+    return this.db.createUser(teamMemberName, this.session.id);
 };
 
 SessionController.prototype.canEstimate = function () {
@@ -31,7 +32,13 @@ SessionController.prototype.estimate = function (userName, cardName) {
     this.session.updateExposition(userName, this.session.getCardByName(cardName));
 };
 
-
+SessionController.prototype.getUsers = function () {
+    var users = [];
+    var user_ids = this.db.getUserIDsBySessionID(this.session.id);
+    for (var i = 0; i < user_ids.length; ++i)
+        users.push(this.db.getUserByID(user_ids[i], this.session.id));
+    return users;
+}
 
 exports.SessionController = SessionController;
 
