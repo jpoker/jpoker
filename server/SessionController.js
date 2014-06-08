@@ -32,7 +32,13 @@ SessionController.prototype.estimate = function (userName, cardName) {
     this.session.updateExposition(userName, this.session.getCardByName(cardName));
 };
 
-
+SessionController.prototype.getUsers = function () {
+    var users = [];
+    var user_ids = this.db.getUserIDsBySessionID(this.session.id);
+    for (var i = 0; i < user_ids.length; ++i)
+        users.push(this.db.getUserByID(user_ids[i], this.session.id));
+    return users;
+}
 
 exports.SessionController = SessionController;
 

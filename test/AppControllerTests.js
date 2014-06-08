@@ -1,11 +1,11 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var AppController = require('../server/AppController.js').AppController;
 var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('AppController', function() {
 
     beforeEach(function() {
-        var db = new FakeDB();
+        db = new FakeDB();
         controller = new AppController(db);
     });
 
@@ -19,5 +19,22 @@ describe('AppController', function() {
         session = controller.createSession('Vasya Pupkin');
         assert.equal('Vasya Pupkin', session.scrumMasterName);
     });
+
+    it('getUserList should return scrum master ID in user list when session just created', function() {
+        var session = controller.createSession();
+
+        var user_list = db.getUserIDsBySessionID(session.id);
+
+        assert.lengthOf(user_list, 1);
+    })
+
+    it('should return session by ID when created', function() {
+        var created = controller.createSession('Master');
+
+        var queried = controller.getSessionByID(created.id);
+
+        assert.equal(created, queried);
+    })
+
 
 })
