@@ -30,6 +30,7 @@ function db_open()
     User.remove({name: 'Vasya'}, function (err) {
         if (err !== null)
             console.log('cleaned-up');
+        mongoose.disconnect();
     });
 }
 
