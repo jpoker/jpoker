@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var FakeDB = require('../server/FakeDB.js').FakeDB;
 
-describe('DB', function() {
+describe('FakeDB', function() {
 
     beforeEach(function() {
         db = new FakeDB();

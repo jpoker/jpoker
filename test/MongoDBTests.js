@@ -1,16 +1,28 @@
 var assert = require('chai').assert;
 var MongoDB = require('../server/MongoDB.js').MongoDB;
 
-describe('DB', function() {
+describe('MongoDB', function() {
 
-    beforeEach(function() {
+    before(function (done) {
         db = new MongoDB('test');
+        assert.isFalse(db.connected());
+        db.connect(function () {
+            assert.isTrue(db.connected());
+            done();
+        });
     });
 
-    it('should assign session ID when created', function() {
+    after(function (done) {
+        db.disconnect(done);
+        assert.isFalse(db.connected());
+    });
+
+    it('should assign session ID when created', function (done) {
         var session = db.createSession();
 
         assert.isNotNull(session.id);
+
+        done();
     });
 /*
     it('should assign unique IDs when two sessions created', function() {
@@ -18,7 +30,7 @@ describe('DB', function() {
 
         assert.notEqual(first.id, second.id);
     });
-
+/*
     it('should return same session by id when created', function() {
         var created = db.createSession();
 
