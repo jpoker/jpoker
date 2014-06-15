@@ -47,9 +47,7 @@ MongoDB.prototype.connected = function () {
 
 MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     var session = new this.Session({scrumMasterName: scrumMasterName});
-    session.save(function (err, record) {
-        callback(err, record);
-    });
+    session.save(callback);
 }
 
 MongoDB.prototype.getSessionByID = function (session_id, callback) {
