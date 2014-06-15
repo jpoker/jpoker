@@ -76,6 +76,18 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
     });
 }
 
+MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
+    this.User.find({ sessionID: sessionID }, function (err, users) {
+        if (err)
+            return callback(err);
+
+        var userIDs = [];
+        for (var i in users)
+            userIDs.push(users[i].id);
+        callback(null, userIDs);
+    });
+}
+
 exports.MongoDB = MongoDB;
 
 }());

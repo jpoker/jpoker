@@ -165,16 +165,20 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should return user list when users created', function() {
-        var session = db.createSession();
-        var first = db.createUser('first', session.id), second = db.createUser('second', session.id);
-
-        var userList = db.getUserIDsBySessionID(session.id);
-
-        assert.includeMembers([first.id, second.id], userList);
+    it('should return user list when users created', function (done) {
+        db.createSession('master', function (err, session) {
+            db.createUser('first', session.id, function (err, first) {
+                db.createUser('second', session.id, function (err, second) {
+                    db.getUserIDsBySessionID(session.id, function (err, userList) {
+                        assert.includeMembers([first.id, second.id], userList);
+                        done();
+                    });
+                });
+            });
+        });
     });
 
+    /*
     it('should return empty user list when non-existing session', function() {
         var userList = db.getUserIDsBySessionID('non-existing-session');
 
