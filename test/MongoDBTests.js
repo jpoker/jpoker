@@ -95,14 +95,18 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should assign unique IDs when two users created', function() {
-        var session = db.createSession();
-        var first = db.createUser('name', session.id), second = db.createUser('name', session.id);
-
-        assert.notEqual(first.id, second.id);
+    it('should assign unique IDs when two users created', function (done) {
+        db.createSession('master', function (err, session) {
+            db.createUser('first', session.id, function(err, first) {
+                db.createUser('second', session.id, function(err, second){
+                    assert.notEqual(first.id, second.id);
+                    done();
+                });
+            });
+        });
     });
 
+    /*
     it('should have specified user name when created', function() {
         var session = db.createSession();
         var userName = 'Basil Pupkine';
