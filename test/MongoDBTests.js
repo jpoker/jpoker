@@ -20,9 +20,15 @@ describe('MongoDB', function() {
         });
     });
 
+    it('should not return error when session created', function (done) {
+        db.createSession('scrum_master', function (err) {
+            assert.isNull(err);
+            done();
+        });
+    });
+
     it('should assign session ID when created', function (done) {
         db.createSession('scrum_master', function (err, session) {
-            assert.isNull(err);
             assert.isNotNull(session.id);
             done();
         });
@@ -32,7 +38,6 @@ describe('MongoDB', function() {
         db.createSession('first', function (err, first) {
             assert.isNull(err);
             db.createSession('second', function (err, second) {
-                assert.isNull(err);
                 assert.notEqual(first.id, second.id);
                 done();
             });
@@ -42,7 +47,6 @@ describe('MongoDB', function() {
     it('should return same session by id when created', function(done) {
         db.createSession('master', function (err, created) {
             db.getSessionByID(created.id, function (err, queried) {
-                assert.isNull(err);
                 assert.strictEqual(created.id, queried.id);
                 done();
             });
@@ -50,10 +54,18 @@ describe('MongoDB', function() {
     });
 
     it('should return error when session not found', function(done) {
-        db.getSessionByID('non-existent-ID', function (err, queried) {
+        db.getSessionByID('non-existent-ID', function (err) {
             assert.isNotNull(err);
-            assert.isUndefined(queried);
             done();
+        });
+    });
+
+    it('should not return error when session found', function (done) {
+        db.createSession('master', function (err, created) {
+            db.getSessionByID(created.id, function (err) {
+                assert.isNull(err);
+                done();
+            });
         });
     });
 
@@ -67,12 +79,16 @@ describe('MongoDB', function() {
 
     /*
     it('should assign user ID when created', function() {
-        var session = db.createSession();
-        var user = db.createUser('name', session.id);
-
-        assert.isNotNull(user.id);
+        db.createSession('master', function (err, session) {
+            assert.isNull(err);
+            db.createUser('name', session.id, function (err, user) {
+                assert.isNull(err);
+                assert.isNotNull(user.id);
+            });
+        });
     });
 
+    /*
     it('should assign unique IDs when two users created', function() {
         var session = db.createSession();
         var first = db.createUser('name', session.id), second = db.createUser('name', session.id);
