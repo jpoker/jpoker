@@ -44,13 +44,14 @@ MongoDB.prototype.connected = function () {
 }
 
 MongoDB.prototype.createSession = function (scrumMasterName, callback) {
-    if (!this.connected())
-        throw new Error("db not ready");
-
     var session = new this.Session({scrumMasterName: scrumMasterName});
     session.save(function (err, record) {
         callback(err, record);
     });
+}
+
+MongoDB.prototype.getSessionByID = function (session_id, callback) {
+    this.Session.findById(session_id, callback);
 }
 
 exports.MongoDB = MongoDB;

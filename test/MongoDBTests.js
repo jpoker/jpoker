@@ -35,15 +35,17 @@ describe('MongoDB', function() {
             });
         });
     });
-/*
-    it('should return same session by id when created', function() {
-        var created = db.createSession();
 
-        var queried = db.getSessionByID(created.id);
-
-        assert.strictEqual(created, queried);
+    it('should return same session by id when created', function(done) {
+        db.createSession('master', function (err, created) {
+            db.getSessionByID(created.id, function (err, queried) {
+                assert.strictEqual(created.id, queried.id);
+                done();
+            });
+        });
     });
 
+    /*
     it('should return null when session not found', function() {
         var queried = db.getSessionByID('non-existent-ID');
 
