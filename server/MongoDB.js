@@ -58,7 +58,16 @@ MongoDB.prototype.createUser = function (userName, sessionID, callback) {
 }
 
 MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
-    this.User.findById(userID, callback);
+    this.User.find({ _id: userID, sessionID: sessionID }, function (err, users) {
+        if (err)
+            callback(err);
+        else if (users.length == 0)
+            callback('not found');
+        else if (users.length == 1)
+            callback(null, users[0]);
+        else
+            callback('duplicated IDs');
+    });
 }
 
 exports.MongoDB = MongoDB;

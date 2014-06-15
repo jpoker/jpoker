@@ -145,16 +145,18 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should return null when user is not in the session', function() {
-        var session = db.createSession();
-        var created = db.createUser('name', session.id);
-
-        var queried = db.getUserByID(created.id, 'non-existent-session');
-
-        assert.notOk(queried);
+    it('should return error when user is not in the session', function (done) {
+        db.createSession('master', function (err, session) {
+            db.createUser('user', session.id, function (err, created) {
+                db.getUserByID(created.id, 'non-existent-session', function (err) {
+                    assert.ok(err);
+                    done();
+                });
+            });
+        });
     });
 
+    /*
     it('should return null when attempting to create user in non-existing session', function() {
         var session = db.createSession();
         var user = db.createUser('name', 'non-existent-session');
