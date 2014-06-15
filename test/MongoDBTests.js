@@ -3,15 +3,16 @@ var MongoDB = require('../server/MongoDB.js').MongoDB;
 
 describe('MongoDB', function() {
 
+    var db = new MongoDB('test');
+
     before(function (done) {
-        db = new MongoDB('test');
         assert.isFalse(db.connected());
         db.connect(function () {
             assert.isTrue(db.connected());
             done();
         });
     });
-
+    
     after(function (done) {
         db.disconnect(function (done) {
             assert.isFalse(db.connected());
@@ -25,11 +26,13 @@ describe('MongoDB', function() {
             done();
         });
     });
-*/
-    it('test', function (done) {
+*//*
+    it('test 123', function (done) {
+        console.log('test-1');
         assert.isTrue(true);
+        console.log('test-2');
     });
-/*
+
     it('should assign unique IDs when two sessions created', function (done) {
         db.createSession('first', function (err, first) {
             db.createSession('second', function (err, second) {

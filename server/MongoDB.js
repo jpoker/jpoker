@@ -28,9 +28,10 @@ MongoDB.prototype.connect = function (callback) {
 }
 
 MongoDB.prototype.disconnect = function (callback) {
-    mongoose.disconnect(function () {
-        this.connection = null;
-        this.ready = false;
+    var self = this;
+    mongoose.disconnect(function (err) {
+        self.connection = null;
+        self.ready = false;
         callback();
     });
 }
@@ -46,8 +47,8 @@ MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     var sessionSchema = new mongoose.Schema({scrumMasterName: String});
     var Session = mongoose.model('Session', sessionSchema);
 
-    var session = Session.create({scrumMasterName: scrumMasterName},
-    function (err, record) {
+    var session = new Session({scrumMasterName: scrumMasterName});
+    session.save(function (err, record) {
         callback(err, record);
     });
 }
