@@ -116,10 +116,19 @@ describe('MongoDB', function() {
         });
     });
 
-    it('should return error when user not found', function(done) {
+    it('should return error when user not found', function (done) {
         db.createSession('master', function (err, session) {
             db.getUserByID('non-existent-user', session.id, function (err) {
                 assert.ok(err);
+                done();
+            });
+        });
+    });
+
+    it('should not return error when user found', function (done) {
+        db.createSession('master', function (err, session) {
+            db.createUser('user', session.id, function (err) {
+                assert.notOk(err);
                 done();
             });
         });
