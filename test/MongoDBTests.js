@@ -77,6 +77,15 @@ describe('MongoDB', function() {
         });
     });
 
+    it('should not return error when user created', function (done) {
+        db.createSession('master', function (err, session) {
+            db.createUser('name', session.id, function (err) {
+                assert.isNull(err);
+                done();
+            });
+        });
+    });
+
     /*
     it('should assign user ID when created', function() {
         db.createSession('master', function (err, session) {

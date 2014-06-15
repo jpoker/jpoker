@@ -24,6 +24,8 @@ MongoDB.prototype.connect = function (callback) {
     this.connection.once('open', function () {
         var sessionSchema = new mongoose.Schema({ scrumMasterName: String });
         self.Session = mongoose.model('Session', sessionSchema);
+        var userSchema = new mongoose.Schema({name: String, sessionID: String});
+        self.User = mongoose.model('User', userSchema);
 
         self.ready = true;
         callback();
@@ -52,6 +54,11 @@ MongoDB.prototype.createSession = function (scrumMasterName, callback) {
 
 MongoDB.prototype.getSessionByID = function (session_id, callback) {
     this.Session.findById(session_id, callback);
+}
+
+MongoDB.prototype.createUser = function (userName, session_id, callback) {
+    var user = new this.User({ name: userName, sessionID: session_id });
+    user.save(callback);
 }
 
 exports.MongoDB = MongoDB;
