@@ -57,15 +57,15 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it("should return session with specified scrum master's name when created", function() {
+    it("should return session with specified scrum master's name when created", function (done) {
         var scrumMasterName = 'Scrum Master'
-
-        var session = db.createSession(scrumMasterName);
-
-        assert.equal(scrumMasterName, session.scrumMasterName);
+        db.createSession(scrumMasterName, function (err, session) {
+            assert.equal(scrumMasterName, session.scrumMasterName);
+            done();            
+        });
     });
 
+    /*
     it('should assign user ID when created', function() {
         var session = db.createSession();
         var user = db.createUser('name', session.id);
