@@ -45,13 +45,15 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should return null when session not found', function() {
-        var queried = db.getSessionByID('non-existent-ID');
-
-        assert.isNull(queried);
+    it('should return error when session not found', function(done) {
+        db.getSessionByID('non-existent-ID', function (err, queried) {
+            assert.isDefined(err);
+            assert.isUndefined(queried);
+            done();
+        });
     });
 
+    /*
     it("should return session with specified scrum master's name when created", function() {
         var scrumMasterName = 'Scrum Master'
 
