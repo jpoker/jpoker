@@ -57,6 +57,10 @@ MongoDB.prototype.createUser = function (userName, sessionID, callback) {
     user.save(callback);
 }
 
+MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
+    this.User.findById(userID, callback);
+}
+
 exports.MongoDB = MongoDB;
 
 }());
