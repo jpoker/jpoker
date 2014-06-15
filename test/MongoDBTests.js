@@ -106,15 +106,17 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should have specified user name when created', function() {
-        var session = db.createSession();
-        var userName = 'Basil Pupkine';
-        var user = db.createUser(userName, session.id);
-
-        assert.equal(userName, user.name);
+    it('should have specified user name when created', function(done) {
+        db.createSession('master', function(err, session) {
+            var userName = 'Basil Pupkine';
+            db.createUser(userName, session.id, function(err, user) {
+                assert.equal(userName, user.name);
+                done();
+            });
+        });
     });
 
+    /*
     it('should return null when user not found', function() {
         var session = db.createSession();
         var user = db.getUserByID('non-existent-user', session.id);
