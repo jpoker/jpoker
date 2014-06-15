@@ -14,19 +14,19 @@ describe('MongoDB', function() {
     });
     
     after(function (done) {
-        db.disconnect(function (done) {
+        db.disconnect(function () {
             assert.isFalse(db.connected());
             done();
         });
     });
-/*
+
     it('should assign session ID when created', function (done) {
         db.createSession('scrum_master', function (err, session) {
             assert.isNotNull(session.id);
             done();
         });
     });
-*//*
+/*
     it('test 123', function (done) {
         console.log('test-1');
         assert.isTrue(true);
