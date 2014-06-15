@@ -17,39 +17,39 @@ function MongoDB(db_name) {
 }
 
 MongoDB.prototype.connect = function (callback) {
-    this.connection = mongoose.createConnection('mongodb://localhost/' + this.db_name);
+    mongoose.connect('mongodb://localhost/' + this.db_name);
+    this.connection = mongoose.connection;
     this.connection.on('error', on_error);
     var self = this;
     this.connection.once('open', function () {
-        var sessionSchema = new mongoose.Schema({ scrumMasterName: String });
-        self.Session = mongoose.model('Session', sessionSchema);
-
         self.ready = true;
         callback();
     });
 }
 
 MongoDB.prototype.disconnect = function (callback) {
-    this.connection.close(callback);
-    this.ready = false;
+    mongoose.disconnect(function () {
+        this.connection = null;
+        this.ready = false;
+        callback();
+    });
 }
 
 MongoDB.prototype.connected = function () {
     return this.ready === true;
 }
 
-MongoDB.prototype.createSession = function (scrumMasterName) {
+MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     if (!this.connected())
         throw new Error("db not ready");
 
-    var session = new this.Session({scrumMasterName: scrumMasterName});
-    session.save(function (err, record) {
-        if (err !== null)
-            console.log('error saving an entry: ' + err);
-        else
-            console.log('saved with id ' + record._id);
+    var sessionSchema = new mongoose.Schema({scrumMasterName: String});
+    var Session = mongoose.model('Session', sessionSchema);
+
+    var session = Session.create({scrumMasterName: scrumMasterName},
+    function (err, record) {
+        callback(err, record);
     });
-    return session;
 }
 
 exports.MongoDB = MongoDB;
