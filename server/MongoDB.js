@@ -22,6 +22,9 @@ MongoDB.prototype.connect = function (callback) {
     this.connection.on('error', on_error);
     var self = this;
     this.connection.once('open', function () {
+        var sessionSchema = new mongoose.Schema({ scrumMasterName: String });
+        self.Session = mongoose.model('Session', sessionSchema);
+
         self.ready = true;
         callback();
     });
@@ -44,10 +47,7 @@ MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     if (!this.connected())
         throw new Error("db not ready");
 
-    var sessionSchema = new mongoose.Schema({scrumMasterName: String});
-    var Session = mongoose.model('Session', sessionSchema);
-
-    var session = new Session({scrumMasterName: scrumMasterName});
+    var session = new this.Session({scrumMasterName: scrumMasterName});
     session.save(function (err, record) {
         callback(err, record);
     });

@@ -26,12 +26,6 @@ describe('MongoDB', function() {
             done();
         });
     });
-/*
-    it('test 123', function (done) {
-        console.log('test-1');
-        assert.isTrue(true);
-        console.log('test-2');
-    });
 
     it('should assign unique IDs when two sessions created', function (done) {
         db.createSession('first', function (err, first) {
