@@ -86,13 +86,11 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should assign user ID when created', function() {
+    it('should assign user ID when created', function(done) {
         db.createSession('master', function (err, session) {
-            assert.isNull(err);
             db.createUser('name', session.id, function (err, user) {
-                assert.isNull(err);
-                assert.isNotNull(user.id);
+                assert.ok(user.id);
+                done();
             });
         });
     });
