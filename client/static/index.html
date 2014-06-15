@@ -5,12 +5,33 @@
     <title>JPoker</title>
 </head>
 <body>
-Welcome to <b>JPoker</b> | 
-    <form action="/sessions/new/213" method="post"><input type="submit" value="new session"/>
+    Welcome to <b>JPoker</b> |
+    <script type="text/javascript">
+        var on_click = function (path, params, method) {
+            method = method || "post"; // Set method to post by default if not specified.
 
-    </form>
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
 
-    <script type="text/javascript" src="Requests.js"></script>
+            alert("path " + path);
+            alert("params " + params);
+            for (item in params) {
+                alert("item_params " + params[item]);
+                path += "/" + document.getElementById(params[item]).value;
+            }
+
+            form.setAttribute("action", path);
+            document.body.appendChild(form);
+            form.submit();
+        };
+    </script>
+
+    <input type="button" value="new session" onclick="on_click('/sessions/new', ['master_id'])" />
+    <input id="master_id" name="master_id"/>
+
+    <!--TODO:uncomment script type="text/javascript" src="Requests.js"></!--script-->
 
 
 </body>
