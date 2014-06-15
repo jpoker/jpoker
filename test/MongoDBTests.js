@@ -22,6 +22,7 @@ describe('MongoDB', function() {
 
     it('should assign session ID when created', function (done) {
         db.createSession('scrum_master', function (err, session) {
+            assert.isNull(err);
             assert.isNotNull(session.id);
             done();
         });
@@ -29,7 +30,9 @@ describe('MongoDB', function() {
 
     it('should assign unique IDs when two sessions created', function (done) {
         db.createSession('first', function (err, first) {
+            assert.isNull(err);
             db.createSession('second', function (err, second) {
+                assert.isNull(err);
                 assert.notEqual(first.id, second.id);
                 done();
             });
@@ -39,6 +42,7 @@ describe('MongoDB', function() {
     it('should return same session by id when created', function(done) {
         db.createSession('master', function (err, created) {
             db.getSessionByID(created.id, function (err, queried) {
+                assert.isNull(err);
                 assert.strictEqual(created.id, queried.id);
                 done();
             });
@@ -47,7 +51,7 @@ describe('MongoDB', function() {
 
     it('should return error when session not found', function(done) {
         db.getSessionByID('non-existent-ID', function (err, queried) {
-            assert.isDefined(err);
+            assert.isNotNull(err);
             assert.isUndefined(queried);
             done();
         });
