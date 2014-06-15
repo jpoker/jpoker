@@ -22,21 +22,21 @@ describe('MongoDB', function() {
 
     it('should not return error when session created', function (done) {
         db.createSession('scrum_master', function (err) {
-            assert.isNull(err);
+            assert.notOk(err);
             done();
         });
     });
 
     it('should assign session ID when created', function (done) {
         db.createSession('scrum_master', function (err, session) {
-            assert.isNotNull(session.id);
+            assert.ok(session.id);
             done();
         });
     });
 
     it('should assign unique IDs when two sessions created', function (done) {
         db.createSession('first', function (err, first) {
-            assert.isNull(err);
+            assert.notOk(err);
             db.createSession('second', function (err, second) {
                 assert.notEqual(first.id, second.id);
                 done();
@@ -55,7 +55,7 @@ describe('MongoDB', function() {
 
     it('should return error when session not found', function(done) {
         db.getSessionByID('non-existent-ID', function (err) {
-            assert.isNotNull(err);
+            assert.ok(err);
             done();
         });
     });
@@ -63,7 +63,7 @@ describe('MongoDB', function() {
     it('should not return error when session found', function (done) {
         db.createSession('master', function (err, created) {
             db.getSessionByID(created.id, function (err) {
-                assert.isNull(err);
+                assert.notOk(err);
                 done();
             });
         });
@@ -80,7 +80,7 @@ describe('MongoDB', function() {
     it('should not return error when user created', function (done) {
         db.createSession('master', function (err, session) {
             db.createUser('name', session.id, function (err) {
-                assert.isNull(err);
+                assert.notOk(err);
                 done();
             });
         });
@@ -115,7 +115,7 @@ describe('MongoDB', function() {
         var session = db.createSession();
         var user = db.getUserByID('non-existent-user', session.id);
 
-        assert.isNull(user);
+        assert.notOk(user);
     });
 
     it('should return same user when found', function() {
@@ -133,14 +133,14 @@ describe('MongoDB', function() {
 
         var queried = db.getUserByID(created.id, 'non-existent-session');
 
-        assert.isNull(queried);
+        assert.notOk(queried);
     });
 
     it('should return null when attempting to create user in non-existing session', function() {
         var session = db.createSession();
         var user = db.createUser('name', 'non-existent-session');
 
-        assert.isNull(user);
+        assert.notOk(user);
     });
 
     it('should return user list when users created', function() {
