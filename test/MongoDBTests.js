@@ -178,11 +178,10 @@ describe('MongoDB', function() {
         });
     });
 
-    /*
-    it('should return empty user list when non-existing session', function() {
-        var userList = db.getUserIDsBySessionID('non-existing-session');
-
-        assert.lengthOf(userList, 0);
+    it('get user IDs should return error when non-existing session', function (done) {
+        db.getUserIDsBySessionID('non-existing-session', function (err) {
+            assert.ok(err);
+            done();
+        });
     })
-*/
 })
