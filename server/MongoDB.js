@@ -53,8 +53,14 @@ MongoDB.prototype.getSessionByID = function (sessionID, callback) {
 }
 
 MongoDB.prototype.createUser = function (userName, sessionID, callback) {
-    var user = new this.User({ name: userName, sessionID: sessionID });
-    user.save(callback);
+    var self = this;
+    this.getSessionByID(sessionID, function (err) {
+        if (err)
+            return callback(err);
+
+        var user = new self.User({ name: userName, sessionID: sessionID });
+        user.save(callback);
+    });
 }
 
 MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
