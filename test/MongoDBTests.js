@@ -147,15 +147,15 @@ describe('MongoDB', function() {
         var session = db.createSession();
         var first = db.createUser('first', session.id), second = db.createUser('second', session.id);
 
-        var user_list = db.getUserIDsBySessionID(session.id);
+        var userList = db.getUserIDsBySessionID(session.id);
 
-        assert.includeMembers([first.id, second.id], user_list);
+        assert.includeMembers([first.id, second.id], userList);
     });
 
     it('should return empty user list when non-existing session', function() {
-        var user_list = db.getUserIDsBySessionID('non-existing-session');
+        var userList = db.getUserIDsBySessionID('non-existing-session');
 
-        assert.lengthOf(user_list, 0);
+        assert.lengthOf(userList, 0);
     })
 */
 })

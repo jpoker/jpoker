@@ -6,20 +6,18 @@ var mongoose = require('mongoose');
 var Session = require('./Session.js').Session;
 var TeamMember = require('./TeamMember.js').TeamMember;
 
-function on_error() {
-    throw new Error("Mongoose error!");
-}
-
-function MongoDB(db_name) {
+function MongoDB(dbName) {
     this.ready = false;
-    this.db_name = db_name;
+    this.dbName = dbName;
     this.connection = null;
 }
 
 MongoDB.prototype.connect = function (callback) {
-    mongoose.connect('mongodb://localhost/' + this.db_name);
+    mongoose.connect('mongodb://localhost/' + this.dbName);
     this.connection = mongoose.connection;
-    this.connection.on('error', on_error);
+    this.connection.on('error', function () {
+        throw new Error("Mongoose error!");
+    });
     var self = this;
     this.connection.once('open', function () {
         var sessionSchema = new mongoose.Schema({ scrumMasterName: String });
@@ -50,12 +48,12 @@ MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     session.save(callback);
 }
 
-MongoDB.prototype.getSessionByID = function (session_id, callback) {
-    this.Session.findById(session_id, callback);
+MongoDB.prototype.getSessionByID = function (sessionID, callback) {
+    this.Session.findById(sessionID, callback);
 }
 
-MongoDB.prototype.createUser = function (userName, session_id, callback) {
-    var user = new this.User({ name: userName, sessionID: session_id });
+MongoDB.prototype.createUser = function (userName, sessionID, callback) {
+    var user = new this.User({ name: userName, sessionID: sessionID });
     user.save(callback);
 }
 
