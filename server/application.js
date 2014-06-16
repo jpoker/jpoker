@@ -22,16 +22,26 @@ server.get('/', function(req, res) {
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
-    res.send('session created! ' +
-        appController.createSession(req.params.master_id).id);
+    appController.createSession(req.params.master_id, function (err, session) {
+        if (err)
+            return res.send('error! ' + err);
+        res.send('session created! ' +  session.id);  
+    });     
 });
 
 server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
-    var sessionController = new SessionController(appController.getSessionByID(req.params.session_id), db);
-    var addedUser = sessionController.joinSession(req.params.user_id);
+    appController.getSessionByID(req.params.session_id, function (err, session) {
+        if (err)
+            return res.send('error! ' + err);
 
-    res.send('user ' + addedUser.name +
-        ' added to session ' + req.params.session_id);
+        var sessionController = new SessionController(session, db);
+        sessionController.joinSession(req.params.user_id, function (err, user) {
+            if (err)
+                return res.send('error! ' + err);
+
+            res.send('user ' + user.name + ' added to session ' + req.params.session_id);
+        });
+    });
 });
 
 server.get('/session/:id/users/:info', function (req, res) {
