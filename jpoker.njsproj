@@ -21,7 +21,6 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="karma.conf.js" />
-    <Compile Include="try-mongo.js" />
     <Compile Include="server\AppController.js" />
     <Compile Include="server\application.js" />
     <Compile Include="server\Card.js" />
