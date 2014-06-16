@@ -6,15 +6,13 @@ var PORT = 9372;
 
 var AppController = require('./AppController.js').AppController;
 var SessionController = require('./SessionController.js').SessionController;
-var FakeDB = require('./FakeDB.js').FakeDB;
-
-var db = new FakeDB();
-var appController = new AppController(db);
+var DB = require('./MongoDB.js').MongoDB;
 
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
-
+var db = new DB('develop');
+var appController = new AppController(db);
 
 //root of the website
 server.get('/', function(req, res) {
@@ -50,5 +48,6 @@ server.get('/session/:id/users/:info', function (req, res) {
     res.send('connected users ' + req.params.info);
 });
 
-
-server.listen(PORT);
+db.connect(function() {
+    server.listen(PORT);
+})
