@@ -6,9 +6,8 @@ var PORT = 9372;
 
 var AppController = require('./AppController.js').AppController;
 var SessionController = require('./SessionController.js').SessionController;
-var FakeDB = require('./FakeDB.js').FakeDB;
-
-var db = new FakeDB();
+var DB = require('./MongoDB.js').MongoDB;
+var db = new DB('develop');
 var appController = new AppController(db);
 
 server.use(morgan('short'));
@@ -18,7 +17,6 @@ server.use('/static', express.static(__dirname + './../client/static'));
 var bodyParser = require('body-parser')
 server.use(bodyParser.urlencoded())
 server.use(bodyParser.json());
-
 server.use(express.static(__dirname + '/public'));
 
 // This route receives the posted form.
@@ -37,21 +35,32 @@ server.get('/', function(req, res) {
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
-    appController.createSession(req.params.master_id);
-    res.redirect('/static/session.html');
+    appController.createSession(req.params.master_id, function (err, session) {
+        if (err)
+            return res.send('error! ' + err);
+        res.redirect('/static/session.html');
+    });     
 });
 
 server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
-    var sessionController = new SessionController(appController.getSessionByID(req.params.session_id), db);
-    var addedUser = sessionController.joinSession(req.params.user_id);
+    appController.getSessionByID(req.params.session_id, function (err, session) {
+        if (err)
+            return res.send('error! ' + err);
 
-    res.send('user ' + addedUser.name +
-        ' added to session ' + req.params.session_id);
+        var sessionController = new SessionController(session, db);
+        sessionController.joinSession(req.params.user_id, function (err, user) {
+            if (err)
+                return res.send('error! ' + err);
+
+            res.send('user ' + user.name + ' added to session ' + req.params.session_id);
+        });
+    });
 });
 
 server.get('/session/:id/users/:info', function (req, res) {
     res.send('connected users ' + req.params.info);
 });
 
-
-server.listen(PORT);
+db.connect(function() {
+    server.listen(PORT);
+})

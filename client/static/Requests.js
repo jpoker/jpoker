@@ -76,7 +76,7 @@
         xmlhttp.send('session_id=' + session_id + '&user_id=' + user_id);
     };
 
-    PostJoinSession('6', 'She');
+    //PostJoinSession('6', 'She');
 
 }());
 

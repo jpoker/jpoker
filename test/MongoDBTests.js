@@ -1,13 +1,25 @@
 var assert = require('chai').assert;
-var FakeDB = require('../server/FakeDB.js').FakeDB;
+var MongoDB = require('../server/MongoDB.js').MongoDB;
 
-describe('FakeDB', function() {
+describe('MongoDB', function() {
 
-    beforeEach(function (done) {
-        db = new FakeDB();
-        done();
+    var db = new MongoDB('test');
+
+    before(function (done) {
+        assert.isFalse(db.connected());
+        db.connect(function () {
+            assert.isTrue(db.connected());
+            done();
+        });
     });
     
+    after(function (done) {
+        db.disconnect(function () {
+            assert.isFalse(db.connected());
+            done();
+        });
+    });
+
     it('should not return error when session created', function (done) {
         db.createSession('scrum_master', function (err) {
             assert.notOk(err);
@@ -172,5 +184,4 @@ describe('FakeDB', function() {
             done();
         });
     })
-
 })
