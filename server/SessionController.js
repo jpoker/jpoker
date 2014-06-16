@@ -16,12 +16,12 @@ SessionController.prototype.joinSession = function(teamMemberName, callback) {
 
     this.db.createUser(teamMemberName, this.session.id, callback);
 };
-/*
+
 SessionController.prototype.canEstimate = function () {
     if (this.session.deckEmpty())
         throw new Error("deck isn't available");
 };
-
+/*
 SessionController.prototype.getCardByName = function (name) {
     this.canEstimate();
     return this.session.getCardByName(name);
