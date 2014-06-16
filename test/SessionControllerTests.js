@@ -6,36 +6,46 @@ var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('SessionController', function() {
 
-    beforeEach(function() {
+    var session = null;
+
+    beforeEach(function (done) {
         var db = new FakeDB();
         var appController = new AppController(db);
-        var session = appController.createSession('Master');
-        controller = new SessionController(session, db);
+        appController.createSession('Master', function (err, session) {
+            session = session;
+            controller = new SessionController(session, db);
+            done();
+        });
     });
 
-    it('joinSession should throw when team member name is empty', function() {
+    it('joinSession should throw when team member name is empty', function (done) {
         assert.throws(function() {
             controller.joinSession("");
-            }, Error);
+        }, Error);
+
+        done();
     });
 
-    it('joinSession should return team member with given name', function() {
-        var teamMember = controller.joinSession('Petya Pupkin');
-        assert.equal('Petya Pupkin', teamMember.name);
+    it('joinSession should return team member with given name', function (done) {
+        controller.joinSession('Petya Pupkin', function (err, user) {
+            assert.equal('Petya Pupkin', user.name);
+            done();
+        });
     });
 
-    it('should return list of joined users and scrum master', function() {
-        controller.joinSession('Jon');
-        controller.joinSession('Max');
-
-        var user_list = controller.getUsers(session);
-        var names = [];
-        for (var i = 0; i < user_list.length; ++i) {
-            var user = user_list[i];
-            names.push(user.name);
-        }
-
-        assert.sameMembers(['Jon', 'Max', 'Master'], names);
+    it('should return list of joined users and scrum master', function(done) {
+        controller.joinSession('Jon', function () {
+            controller.joinSession('Max', function () {
+                controller.getUsers(function (err, userList) {
+                    var names = [];
+                    for (var i in userList) {
+                        var user = userList[i];
+                        names.push(user.name);
+                    }
+                    assert.sameMembers(['Jon', 'Max', 'Master'], names);
+                    done();
+                });
+            });
+        });
     });
-
 })
