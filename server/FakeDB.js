@@ -8,10 +8,10 @@ var TeamMember = require('./TeamMember.js').TeamMember;
 function FakeDB() {
     this.sessions = {};
     this.users = {};
-    this.counter = 0;
+    this.counter = 1;
 }
 
-FakeDB.prototype.createSession = function(scrumMasterName) {
+FakeDB.prototype.createSession = function(scrumMasterName, callback) {
     var session = new Session(scrumMasterName);
     var id = this.counter++;
     session.id = id;
@@ -19,41 +19,49 @@ FakeDB.prototype.createSession = function(scrumMasterName) {
     this.sessions[id] = session;
     this.users[id] = {}
 
-    return session;
+    callback(null, session);
 }
 
-FakeDB.prototype.getSessionByID = function(id) {
-    return id in this.sessions ? this.sessions[id] : null;
+FakeDB.prototype.getSessionByID = function(id, callback) {
+    if (id in this.sessions)
+        callback(null, this.sessions[id]);
+    else
+        callback('not found', null);
 }
 
-FakeDB.prototype.createUser = function(name, session_id) {
-    if (!(session_id in this.users))
-        return null;
+FakeDB.prototype.createUser = function(name, sessionID, callback) {
+    if (!(sessionID in this.users))
+        return callback('wrong session id', null);
 
     var user = new TeamMember(name);
     var id = (this.counter++).toString();
     user.id = id;
 
-    this.users[session_id][id] = user;
-
-    return user;
+    this.users[sessionID][id] = user;
+    callback(null, user);
 }
 
-FakeDB.prototype.getUserByID = function(user_id, session_id) {
-    if (!(session_id in this.users))
-        return null;
+FakeDB.prototype.getUserByID = function(userID, sessionID, callback) {
+    if (!(sessionID in this.users))
+        return callback('wrong session id', null);
 
-    var users_in_session = this.users[session_id];
-    return user_id in users_in_session ? users_in_session[user_id] : null;
+    var users_in_session = this.users[sessionID];
+    if (userID in users_in_session)
+        callback(null, users_in_session[userID]);
+    else
+        callback('not found', null);
 }
 
-FakeDB.prototype.getUserIDsBySessionID = function(session_id) {
-    var user_ids = [];
+FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
+    if (!(sessionID in this.sessions))
+        return callback('not found', null);
 
-    for (var user_id in this.users[session_id])
-        user_ids.push(user_id);
+    var userIDs = [];
 
-    return user_ids;
+    for (var userID in this.users[sessionID])
+        userIDs.push(userID);
+
+    callback(null, userIDs);
 }
 
 exports.FakeDB = FakeDB;

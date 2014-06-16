@@ -8,17 +8,24 @@ function AppController(db) {
     this.db = db;
 }
 
-AppController.prototype.createSession = function(scrumMasterName) {
+AppController.prototype.createSession = function(scrumMasterName, callback) {
     if (scrumMasterName === '')
         throw new Error('scrum master\'s name cannot be empty!');
 
-    var session = this.db.createSession(scrumMasterName);
-    var scrumMaster = this.db.createUser(scrumMasterName, session.id);
-    return session;
+    var self = this;
+    this.db.createSession(scrumMasterName, function (err, session) {
+        if (err)
+            callback(err);
+        self.db.createUser(scrumMasterName, session.id, function (err, user) {
+            if (err)
+                callback(err);
+            callback(null, session);
+        });
+    });
 };
 
-AppController.prototype.getSessionByID = function(id) {
-    return this.db.getSessionByID(id);
+AppController.prototype.getSessionByID = function(sessionID, callback) {
+    return this.db.getSessionByID(sessionID, callback);
 }
 
 exports.AppController = AppController;

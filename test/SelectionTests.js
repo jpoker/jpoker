@@ -8,7 +8,7 @@ var SessionController = require('../server/SessionController.js').SessionControl
 var TeamMemberController = require('../server/TeamMemberController.js').TeamMemberController;
 
 describe('Selection', function () {
-
+/*
     it('absenceOfDeckShouldThrow', function () {
         assert.throws(function () {
             var session = new Session();
@@ -36,5 +36,5 @@ describe('Selection', function () {
         teamMemberController.provideEstimate(exposedCard);
         assert.equal(team_member.getExposedCart(), exposedCard);
     });
-
+*/
 });
