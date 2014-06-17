@@ -1,29 +1,38 @@
 var assert = require('chai').assert;
+var sinon = require('sinon');
 var AppController = require('../server/AppController.js').AppController;
-var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('AppController', function() {
-
+/*
     beforeEach(function (done) {
-        db = new FakeDB();
+        var db = {
+        };
+        db_mock = sinon.mock(db);
         controller = new AppController(db);
         done();
     });
-
+*/
     it('createSession should throw when scrum master name is empty', function (done) {
-        assert.throws(function() {
+        var controller = new AppController();
+        assert.throws(function () {
             controller.createSession('');
             }, Error);
         done();
     });
 
-    it('createSession should return session with given scrum master name', function (done) {
-        controller.createSession('Vasya Pupkin', function (err, session) {
-            assert.equal('Vasya Pupkin', session.scrumMasterName);
-            done();
-        });
-    });
+    it('createSession should call db createSession with given scrum master name', function (done) {
+        var db = { createSession: function () {} };
+        var mock = sinon.mock(db);
+        mock.expects('createSession').withArgs('Vasya Pupkin');
 
+        var controller = new AppController(db);
+        controller.createSession('Vasya Pupkin');
+
+        mock.verify();
+
+        done();
+    });
+/*
     it('getUserList should return scrum master ID in user list when session just created', function (done) {
         controller.createSession('master', function (err, session) {
             db.getUserIDsBySessionID(session.id, function (err, userList) {
@@ -41,6 +50,6 @@ describe('AppController', function() {
             });
         });
     })
-
+*/
 
 })
