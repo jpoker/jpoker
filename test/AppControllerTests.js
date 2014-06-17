@@ -20,13 +20,19 @@ describe('AppController', function() {
         done();
     });
 
-    it('createSession should call db createSession with given scrum master name', function (done) {
-        var db = { createSession: function () {} };
+    it('createSession should call db.createSession and db.createUser with given scrum master user', function (done) {
+        var db = { createSession: function () { }, createUser: function () { } };
+        var scrumMaster = 'Vasya Pupkin';
+
+        var session = { id: 1 };
+        var user = { name: scrumMaster };
+
         var mock = sinon.mock(db);
-        mock.expects('createSession').withArgs('Vasya Pupkin');
+        mock.expects('createSession').withArgs(scrumMaster).callsArgWith(1, null, session);
+        mock.expects('createUser').withArgs(scrumMaster).callsArgWith(2, null, user);
 
         var controller = new AppController(db);
-        controller.createSession('Vasya Pupkin');
+        controller.createSession(scrumMaster, function () { });
 
         mock.verify();
 
