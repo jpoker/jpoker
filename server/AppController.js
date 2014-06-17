@@ -15,7 +15,7 @@ AppController.prototype.createSession = function(scrumMasterName, callback) {
     var self = this;
     this.db.createSession(scrumMasterName, function (err, session) {
         if (err)
-            callback(err);
+            return callback(err);
         self.db.createUser(scrumMasterName, session.id, function (err, user) {
             if (err)
                 callback(err);

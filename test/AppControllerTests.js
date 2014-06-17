@@ -38,6 +38,22 @@ describe('AppController', function() {
 
         done();
     });
+
+    it('createSession should return err when db.createSession failed', function () {
+        var db = { createSession: function () { }, createUser: function () { } };
+        var mock = sinon.mock(db);
+        var dbError = 'failure';
+        mock.expects('createSession').callsArgWith(1, dbError, null);
+        mock.expects('createUser').never();
+
+        var controller = new AppController(db);
+        var callback = sinon.spy();
+        controller.createSession('Vasya', callback);
+
+        mock.verify();
+
+        assert(callback.calledWith(dbError));
+    });
 /*
     it('getUserList should return scrum master ID in user list when session just created', function (done) {
         controller.createSession('master', function (err, session) {
