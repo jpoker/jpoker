@@ -39,11 +39,11 @@ describe('AppController', function() {
         done();
     });
 
-    it('createSession should return err when db.createSession failed', function () {
+    it('createSession should return error when db.createSession failed', function () {
         var db = { createSession: function () { }, createUser: function () { } };
         var mock = sinon.mock(db);
         var dbError = 'failure';
-        mock.expects('createSession').callsArgWith(1, dbError, null);
+        mock.expects('createSession').callsArgWith(1, dbError);
         mock.expects('createUser').never();
 
         var controller = new AppController(db);
@@ -52,9 +52,29 @@ describe('AppController', function() {
 
         mock.verify();
 
+        assert(callback.calledOnce);
         assert(callback.calledWith(dbError));
     });
-/*
+
+    it('createSession should return error when db.createUser failed', function () {
+        var db = { createSession: function () { }, createUser: function () { } };
+        var mock = sinon.mock(db);
+        var session = {id: 1};
+        var userError = 'wrong user';
+        mock.expects('createSession').callsArgWith(1, null, session);
+        mock.expects('createUser').callsArgWith(2, userError);
+
+        var controller = new AppController(db);
+        var callback = sinon.spy();
+        controller.createSession('Vasya', callback);
+
+        mock.verify();
+
+        assert(callback.calledOnce);
+        assert(callback.calledWith(userError));
+    });
+
+    /*
     it('getUserList should return scrum master ID in user list when session just created', function (done) {
         controller.createSession('master', function (err, session) {
             db.getUserIDsBySessionID(session.id, function (err, userList) {
