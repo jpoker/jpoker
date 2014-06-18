@@ -1,17 +1,11 @@
 var assert = require('assert');
-var TeamMember = require('../server/TeamMember.js').TeamMember;
 var TeamMemberController = require('../server/TeamMemberController.js').TeamMemberController;
 
 describe('TeamMemberController', function() {
 
     beforeEach(function() {
-        teamMember = new TeamMember();
+        teamMember = { exposedCard: null };
         controller = new TeamMemberController(teamMember);
-    });
-
-    afterEach(function() {
-        controller = null;
-        teamMember = null;
     });
 
     it('should change estimate to given when provided', function() {
