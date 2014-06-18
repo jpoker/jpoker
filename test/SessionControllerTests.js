@@ -11,7 +11,7 @@ describe('SessionController', function() {
         };
         session = { id: 'session-id' };
 
-        db_mock = sinon.mock(db);
+        dbMock = sinon.mock(db);
 
         controller = new SessionController(session, db);
     });
@@ -24,19 +24,19 @@ describe('SessionController', function() {
 
     it('joinSession should call db.createUser with given name', function () {
         var userName = 'Petya Pupkin';
-        db_mock.expects('createUser').once().withArgs(userName);
+        dbMock.expects('createUser').once().withArgs(userName);
 
         controller.joinSession(userName);
 
-        db_mock.verify();
+        dbMock.verify();
     });
 
     it('getUser should call db.getUserIDsBySessionID with the session id', function() {
-        db_mock.expects('getUserIDsBySessionID').once().withArgs(session.id);
+        dbMock.expects('getUserIDsBySessionID').once().withArgs(session.id);
 
         controller.getUsers();
 
-        db_mock.verify();
+        dbMock.verify();
     });
 
 })
