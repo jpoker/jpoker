@@ -2,9 +2,6 @@
 
 (function () {
 
-var Session = require('./Session.js').Session;
-var TeamMember = require('./TeamMember.js').TeamMember;
-
 function SessionController(session, db) {
     this.session = session;
     this.db = db;
