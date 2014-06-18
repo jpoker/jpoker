@@ -8,16 +8,6 @@ var TeamMemberController = require('../server/TeamMemberController.js').TeamMemb
 
 describe('Selection', function () {
 /*
-    it('absenceOfDeckShouldThrow', function (done) {
-        assert.throws(function () {
-            var session = new Session();
-            var controller = new SessionController(session);
-            controller.canEstimate();
-        }, Error);
-
-        done();
-    });
-
     it('afterUserSelectsCardExpositionShouldBeEqual', function (done) {
         var db = new FakeDB();
         var appController = new AppController(db);

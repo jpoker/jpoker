@@ -9,7 +9,7 @@ function FakeDB() {
 }
 
 FakeDB.prototype.createSession = function(scrumMasterName, callback) {
-    var session = { scrumMasterName: scrumMasterName };
+    var session = { scrumMasterName: scrumMasterName, deck: [] };
     var id = this.counter++;
     session.id = id;
 

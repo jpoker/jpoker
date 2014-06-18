@@ -9,7 +9,7 @@ describe('SessionController', function() {
             createUser: function () { },
             getUserIDsBySessionID: function () { }
         };
-        session = { id: 'session-id' };
+        session = { id: 'session-id', deck: [] };
 
         dbMock = sinon.mock(db);
 
@@ -37,6 +37,23 @@ describe('SessionController', function() {
         controller.getUsers();
 
         dbMock.verify();
+    });
+
+    it('should throw when no deck', function (done) {
+        assert.throws(function () {
+            controller.canEstimate();
+            }, Error, 'deck isn\'t available');
+
+        done();
+    });
+
+    it('should not throw when there is a deck', function (done) {
+        session.deck = ['a card'];
+        assert.doesNotThrow(function () {
+            controller.canEstimate();
+            }, Error);
+
+        done();
     });
 
 })

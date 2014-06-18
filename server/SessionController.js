@@ -15,7 +15,7 @@ SessionController.prototype.joinSession = function(teamMemberName, callback) {
 };
 
 SessionController.prototype.canEstimate = function () {
-    if (this.session.deckEmpty())
+    if (this.session.deck.length == 0)
         throw new Error("deck isn't available");
 };
 /*
