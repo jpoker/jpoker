@@ -1,5 +1,5 @@
 var assert = require('assert');
-var TeamMemberController = require('../server/TeamMemberController.js').TeamMemberController;
+var TeamMemberController = require('../../server/TeamMemberController.js').TeamMemberController;
 
 describe('TeamMemberController', function() {
 

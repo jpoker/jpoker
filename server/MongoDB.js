@@ -3,8 +3,6 @@
 (function() {
 
 var mongoose = require('mongoose');
-var Session = require('./Session.js').Session;
-var TeamMember = require('./TeamMember.js').TeamMember;
 
 function MongoDB(dbName) {
     this.ready = false;

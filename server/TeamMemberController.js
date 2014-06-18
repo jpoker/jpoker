@@ -2,8 +2,6 @@
 
 (function () {
 
-var TeamMember = require('./TeamMember.js').TeamMember;
-
 function TeamMemberController(teamMember) {
     this.teamMember = teamMember;
 }

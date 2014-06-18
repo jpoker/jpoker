@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
-var FakeDB = require('../server/FakeDB.js').FakeDB;
+var FakeDB = require('../../server/FakeDB.js').FakeDB;
 
 describe('FakeDB', function () {
 

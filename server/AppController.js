@@ -2,8 +2,6 @@
 
 (function () {
 
-var Session = require('./Session.js').Session;
-
 function AppController(db) {
     this.db = db;
 }

@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
-var SessionController = require('../server/SessionController.js').SessionController;
+var SessionController = require('../../server/SessionController.js').SessionController;
 
 describe('SessionController', function() {
 

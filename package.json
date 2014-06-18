@@ -4,7 +4,7 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --recursive",
     "start": "node ./server/application.js"
   },
   "author": "Sergii Shynkaruk",

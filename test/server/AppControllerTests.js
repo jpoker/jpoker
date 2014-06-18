@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
-var AppController = require('../server/AppController.js').AppController;
+var AppController = require('../../server/AppController.js').AppController;
 
 describe('AppController', function() {
 

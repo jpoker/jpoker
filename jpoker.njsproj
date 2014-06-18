@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{b50cdffd-8218-4a3e-b795-4e195f72b53d}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>server\application.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -26,17 +26,14 @@
     <Compile Include="server\Card.js" />
     <Compile Include="server\FakeDB.js" />
     <Compile Include="server\MongoDB.js" />
-    <Compile Include="server\Session.js" />
     <Compile Include="server\SessionController.js" />
-    <Compile Include="server\TeamMember.js" />
     <Compile Include="server\TeamMemberController.js" />
-    <Compile Include="test\AppControllerTests.js" />
-    <Compile Include="test\FakeDBTests.js" />
-    <Compile Include="test\MongoDBTests.js" />
     <Compile Include="test\SelectionTests.js" />
-    <Compile Include="test\SessionControllerTests.js" />
-    <Compile Include="test\TeamMemberControllerTests.js" />
-    <Compile Include="test\TeamMemberTests.js" />
+    <Compile Include="test\server\AppControllerTests.js" />
+    <Compile Include="test\server\FakeDBTests.js" />
+    <Compile Include="test\server\MongoDBTests.js" />
+    <Compile Include="test\server\SessionControllerTests.js" />
+    <Compile Include="test\server\TeamMemberControllerTests.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".git" />
@@ -264,6 +261,7 @@
     <Folder Include="client" />
     <Folder Include="server" />
     <Folder Include="test" />
+    <Folder Include="test\server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
