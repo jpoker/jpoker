@@ -64,6 +64,10 @@ FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     callback(null, userIDs);
 }
 
+FakeDB.prototype.connect = function (callback) {
+    callback();
+}
+
 exports.FakeDB = FakeDB;
 
 }());

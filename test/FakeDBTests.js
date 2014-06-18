@@ -1,13 +1,14 @@
 var assert = require('chai').assert;
+var sinon = require('sinon');
 var FakeDB = require('../server/FakeDB.js').FakeDB;
 
-describe('FakeDB', function() {
+describe('FakeDB', function () {
 
     beforeEach(function (done) {
         db = new FakeDB();
         done();
     });
-    
+
     it('should not return error when session created', function (done) {
         db.createSession('scrum_master', function (err) {
             assert.notOk(err);
@@ -32,7 +33,7 @@ describe('FakeDB', function() {
         });
     });
 
-    it('should return same session by id when created', function(done) {
+    it('should return same session by id when created', function (done) {
         db.createSession('master', function (err, created) {
             db.getSessionByID(created.id, function (err, queried) {
                 assert.strictEqual(created.id, queried.id);
@@ -41,7 +42,7 @@ describe('FakeDB', function() {
         });
     });
 
-    it('should return error when session not found', function(done) {
+    it('should return error when session not found', function (done) {
         db.getSessionByID('non-existent-ID', function (err) {
             assert.ok(err);
             done();
@@ -61,7 +62,7 @@ describe('FakeDB', function() {
         var scrumMasterName = 'Scrum Master'
         db.createSession(scrumMasterName, function (err, session) {
             assert.equal(scrumMasterName, session.scrumMasterName);
-            done();            
+            done();
         });
     });
 
@@ -74,7 +75,7 @@ describe('FakeDB', function() {
         });
     });
 
-    it('should assign user ID when created', function(done) {
+    it('should assign user ID when created', function (done) {
         db.createSession('master', function (err, session) {
             db.createUser('name', session.id, function (err, user) {
                 assert.ok(user.id);
@@ -85,8 +86,8 @@ describe('FakeDB', function() {
 
     it('should assign unique IDs when two users created', function (done) {
         db.createSession('master', function (err, session) {
-            db.createUser('first', session.id, function(err, first) {
-                db.createUser('second', session.id, function(err, second){
+            db.createUser('first', session.id, function (err, first) {
+                db.createUser('second', session.id, function (err, second) {
                     assert.notEqual(first.id, second.id);
                     done();
                 });
@@ -94,10 +95,10 @@ describe('FakeDB', function() {
         });
     });
 
-    it('should have specified user name when created', function(done) {
-        db.createSession('master', function(err, session) {
+    it('should have specified user name when created', function (done) {
+        db.createSession('master', function (err, session) {
             var userName = 'Basil Pupkine';
-            db.createUser(userName, session.id, function(err, user) {
+            db.createUser(userName, session.id, function (err, user) {
                 assert.equal(userName, user.name);
                 done();
             });
@@ -171,6 +172,15 @@ describe('FakeDB', function() {
             assert.ok(err);
             done();
         });
-    })
+    });
 
-})
+    it('connect should call callback without error', function (done) {
+        var callback = sinon.spy();
+
+        db.connect(callback);
+
+        assert(callback.calledOnce);
+        done();
+    });
+
+});
