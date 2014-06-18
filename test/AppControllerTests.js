@@ -4,12 +4,11 @@ var AppController = require('../server/AppController.js').AppController;
 
 describe('AppController', function() {
 /*
-    beforeEach(function (done) {
+    beforeEach(function () {
         var db = {
         };
         db_mock = sinon.mock(db);
         controller = new AppController(db);
-        done();
     });
 */
     it('createSession should throw when scrum master name is empty', function (done) {
@@ -74,24 +73,17 @@ describe('AppController', function() {
         assert(callback.calledWith(userError));
     });
 
-    /*
-    it('getUserList should return scrum master ID in user list when session just created', function (done) {
-        controller.createSession('master', function (err, session) {
-            db.getUserIDsBySessionID(session.id, function (err, userList) {
-                assert.lengthOf(userList, 1);
-                done();
-            });
-        });
-    })
+    it('getSessionByID should call db.getSessionByID', function () {
+        var db = { getSessionByID: function () { } };
+        var mock = sinon.mock(db);
+        var sessionID = 'session-id';
 
-    it('should return session by ID when created', function (done) {
-        controller.createSession('Master', function (err, created) {
-            controller.getSessionByID(created.id, function (err, queried) {
-                assert.equal(created.id, queried.id);
-                done();
-            });
-        });
+        mock.expects('getSessionByID').once().withArgs(sessionID);
+
+        var controller = new AppController(db);
+        controller.getSessionByID(sessionID);
+
+        mock.verify();
     })
-*/
 
 })
