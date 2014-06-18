@@ -3,18 +3,7 @@ var sinon = require('sinon');
 var SessionController = require('../server/SessionController.js').SessionController;
 
 describe('SessionController', function() {
-/*
-    var session = null;
 
-    beforeEach(function () {
-        var db = new FakeDB();
-        var appController = new AppController(db);
-        appController.createSession('Master', function (err, session) {
-            session = session;
-            controller = new SessionController(session, db);
-        });
-    });
-*/
     beforeEach(function () {
         var db = {
             createUser: function () { },
