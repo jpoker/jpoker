@@ -16,8 +16,11 @@ describe('SessionController', function() {
     });
 */
     beforeEach(function () {
-        var db = { createUser: function() {} };
-        var session = {};
+        var db = {
+            createUser: function () { },
+            getUserIDsBySessionID: function () { }
+        };
+        session = { id: 'session-id' };
 
         db_mock = sinon.mock(db);
 
@@ -38,20 +41,13 @@ describe('SessionController', function() {
 
         db_mock.verify();
     });
-/*
-    it('should return list of joined users and scrum master', function() {
-        controller.joinSession('Jon', function () {
-            controller.joinSession('Max', function () {
-                controller.getUsers(function (err, userList) {
-                    var names = [];
-                    for (var i in userList) {
-                        var user = userList[i];
-                        names.push(user.name);
-                    }
-                    assert.sameMembers(['Jon', 'Max', 'Master'], names);
-                });
-            });
-        });
+
+    it('getUser should call db.getUserIDsBySessionID with the session id', function() {
+        db_mock.expects('getUserIDsBySessionID').once().withArgs(session.id);
+
+        controller.getUsers();
+
+        db_mock.verify();
     });
-*/
+
 })
