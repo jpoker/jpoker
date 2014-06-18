@@ -1,39 +1,45 @@
 var assert = require('chai').assert;
-var AppController = require('../server/AppController.js').AppController;
-var Session = require('../server/Session.js').Session;
+var sinon = require('sinon');
 var SessionController = require('../server/SessionController.js').SessionController;
-var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('SessionController', function() {
-
+/*
     var session = null;
 
-    beforeEach(function (done) {
+    beforeEach(function () {
         var db = new FakeDB();
         var appController = new AppController(db);
         appController.createSession('Master', function (err, session) {
             session = session;
             controller = new SessionController(session, db);
-            done();
         });
     });
+*/
+    beforeEach(function () {
+        var db = { createUser: function() {} };
+        var session = {};
 
-    it('joinSession should throw when team member name is empty', function (done) {
+        db_mock = sinon.mock(db);
+
+        controller = new SessionController(session, db);
+    });
+
+    it('joinSession should throw when team member name is empty', function () {
         assert.throws(function() {
-            controller.joinSession("");
+            controller.joinSession('');
         }, Error);
-
-        done();
     });
 
-    it('joinSession should return team member with given name', function (done) {
-        controller.joinSession('Petya Pupkin', function (err, user) {
-            assert.equal('Petya Pupkin', user.name);
-            done();
-        });
-    });
+    it('joinSession should call db.createUser with given name', function () {
+        var userName = 'Petya Pupkin';
+        db_mock.expects('createUser').once().withArgs(userName);
 
-    it('should return list of joined users and scrum master', function(done) {
+        controller.joinSession(userName);
+
+        db_mock.verify();
+    });
+/*
+    it('should return list of joined users and scrum master', function() {
         controller.joinSession('Jon', function () {
             controller.joinSession('Max', function () {
                 controller.getUsers(function (err, userList) {
@@ -43,9 +49,9 @@ describe('SessionController', function() {
                         names.push(user.name);
                     }
                     assert.sameMembers(['Jon', 'Max', 'Master'], names);
-                    done();
                 });
             });
         });
     });
+*/
 })
