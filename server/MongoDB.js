@@ -3,8 +3,6 @@
 (function() {
 
 var mongoose = require('mongoose');
-var Session = require('./Session.js').Session;
-var TeamMember = require('./TeamMember.js').TeamMember;
 
 function MongoDB(dbName) {
     this.ready = false;
@@ -20,7 +18,7 @@ MongoDB.prototype.connect = function (callback) {
     });
     var self = this;
     this.connection.once('open', function () {
-        var sessionSchema = new mongoose.Schema({ scrumMasterName: String });
+        var sessionSchema = new mongoose.Schema({ scrumMasterName: String, deck: Array });
         self.Session = mongoose.model('Session', sessionSchema);
         var userSchema = new mongoose.Schema({name: String, sessionID: String});
         self.User = mongoose.model('User', userSchema);

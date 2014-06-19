@@ -1,5 +1,5 @@
 var assert = require('chai').assert;
-var MongoDB = require('../server/MongoDB.js').MongoDB;
+var MongoDB = require('../../server/MongoDB.js').MongoDB;
 
 describe('MongoDB', function() {
 

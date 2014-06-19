@@ -2,9 +2,6 @@
 
 (function() {
 
-var Session = require('./Session.js').Session;
-var TeamMember = require('./TeamMember.js').TeamMember;
-
 function FakeDB() {
     this.sessions = {};
     this.users = {};
@@ -12,7 +9,7 @@ function FakeDB() {
 }
 
 FakeDB.prototype.createSession = function(scrumMasterName, callback) {
-    var session = new Session(scrumMasterName);
+    var session = { scrumMasterName: scrumMasterName, deck: [] };
     var id = this.counter++;
     session.id = id;
 
@@ -33,7 +30,7 @@ FakeDB.prototype.createUser = function(name, sessionID, callback) {
     if (!(sessionID in this.users))
         return callback('wrong session id', null);
 
-    var user = new TeamMember(name);
+    var user = { name: name };
     var id = (this.counter++).toString();
     user.id = id;
 
@@ -62,6 +59,10 @@ FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
         userIDs.push(userID);
 
     callback(null, userIDs);
+}
+
+FakeDB.prototype.connect = function (callback) {
+    callback();
 }
 
 exports.FakeDB = FakeDB;

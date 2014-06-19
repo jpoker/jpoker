@@ -2,9 +2,6 @@
 
 (function () {
 
-var Session = require('./Session.js').Session;
-var TeamMember = require('./TeamMember.js').TeamMember;
-
 function SessionController(session, db) {
     this.session = session;
     this.db = db;
@@ -18,7 +15,7 @@ SessionController.prototype.joinSession = function(teamMemberName, callback) {
 };
 
 SessionController.prototype.canEstimate = function () {
-    if (this.session.deckEmpty())
+    if (this.session.deck.length == 0)
         throw new Error("deck isn't available");
 };
 /*
