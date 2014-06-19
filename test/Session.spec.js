@@ -37,19 +37,18 @@ describe('session', function() {
 
     });
 
-    it.skip('should find joined users and scrum master in session', function (done) {
-        sessionController.joinSession('Jon', function () {
-            sessionController.joinSession('Max', function () {
-                sessionController.getUsers(function (err, userList) {
-                    var names = [];
-                    for (var i in userList) {
-                        var user = userList[i];
-                        names.push(user.name);
-                    }
-                    assert.sameMembers(['Jon', 'Max', 'Master'], names);
-                    done();
+    describe('join', function () {
+
+        it('should find all joined users and scrum master given session', function (done) {
+            sessionController.joinSession('Jon', function () {
+                sessionController.joinSession('Max', function () {
+                    sessionController.getUsers(function (err, userList) {
+                        expect(names(userList)).to.include.members(['Jon', 'Max', 'Master']);
+                        done();
+                    });
                 });
             });
         });
+
     });
 })
