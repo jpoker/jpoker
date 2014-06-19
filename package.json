@@ -4,7 +4,7 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --recursive",
     "start": "node ./server/application.js"
   },
   "author": "Sergii Shynkaruk",
@@ -19,6 +19,7 @@
     "karma-chai": "^0.1.0",
     "karma-mocha": "^0.1.3",
     "mocha": "^1.18.2",
-    "morgan": "^1.0.1"
+    "morgan": "^1.0.1",
+    "sinon": "^1.10.2"
   }
 }

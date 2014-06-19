@@ -6,6 +6,9 @@ node_js:
 services:
   - mongodb
 
+env:
+  - NODE_ENV=test
+
 notifications:
   email:
     on_success: always

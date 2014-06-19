@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{b50cdffd-8218-4a3e-b795-4e195f72b53d}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>server\application.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -18,6 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="test\Selection.spec.js" />
+    <Compile Include="test\server\AppController.test.js" />
+    <Compile Include="test\server\FakeDB.test.js" />
+    <Compile Include="test\server\MongoDB.test.js" />
+    <Compile Include="test\server\SessionController.test.js" />
+    <Compile Include="test\server\TeamMemberController.test.js" />
+    <Compile Include="test\Session.spec.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="karma.conf.js" />
@@ -26,17 +33,8 @@
     <Compile Include="server\Card.js" />
     <Compile Include="server\FakeDB.js" />
     <Compile Include="server\MongoDB.js" />
-    <Compile Include="server\Session.js" />
     <Compile Include="server\SessionController.js" />
-    <Compile Include="server\TeamMember.js" />
     <Compile Include="server\TeamMemberController.js" />
-    <Compile Include="test\AppControllerTests.js" />
-    <Compile Include="test\FakeDBTests.js" />
-    <Compile Include="test\MongoDBTests.js" />
-    <Compile Include="test\SelectionTests.js" />
-    <Compile Include="test\SessionControllerTests.js" />
-    <Compile Include="test\TeamMemberControllerTests.js" />
-    <Compile Include="test\TeamMemberTests.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".git" />
@@ -264,6 +262,7 @@
     <Folder Include="client" />
     <Folder Include="server" />
     <Folder Include="test" />
+    <Folder Include="test\server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />

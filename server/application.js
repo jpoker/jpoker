@@ -6,12 +6,28 @@ var PORT = 9372;
 
 var AppController = require('./AppController.js').AppController;
 var SessionController = require('./SessionController.js').SessionController;
-var DB = require('./MongoDB.js').MongoDB;
+var FakeDB = require('./FakeDB.js').FakeDB;
+var MongoDB = require('./MongoDB.js').MongoDB;
 
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
-var db = new DB('develop');
+if (server.settings.env == 'development')
+{
+    console.log('using fake DB'); // TODO: switch to morgan
+    db = new FakeDB();
+}
+else  if (server.settings.env == 'test' || server.settings.env == 'production')
+{
+    console.log('using ' + server.settings.env + ' MongoDB'); // TODO: switch to morgan
+    db = new MongoDB(server.settings.env);
+}
+else
+{
+    console.log('unknown environment'); // TODO: switch to morgan
+    return;
+}
+
 var appController = new AppController(db);
 
 //root of the website
