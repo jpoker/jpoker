@@ -18,7 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="test\SessionScenario.js" />
+    <Compile Include="test\Selection.spec.js" />
+    <Compile Include="test\server\AppController.test.js" />
+    <Compile Include="test\server\FakeDB.test.js" />
+    <Compile Include="test\server\MongoDB.test.js" />
+    <Compile Include="test\server\SessionController.test.js" />
+    <Compile Include="test\server\TeamMemberController.test.js" />
+    <Compile Include="test\Session.spec.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="karma.conf.js" />
@@ -29,12 +35,6 @@
     <Compile Include="server\MongoDB.js" />
     <Compile Include="server\SessionController.js" />
     <Compile Include="server\TeamMemberController.js" />
-    <Compile Include="test\SelectionScenario.js" />
-    <Compile Include="test\server\AppControllerTests.js" />
-    <Compile Include="test\server\FakeDBTests.js" />
-    <Compile Include="test\server\MongoDBTests.js" />
-    <Compile Include="test\server\SessionControllerTests.js" />
-    <Compile Include="test\server\TeamMemberControllerTests.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".git" />

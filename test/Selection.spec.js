@@ -7,8 +7,8 @@ var SessionController = require('../server/SessionController.js').SessionControl
 var TeamMemberController = require('../server/TeamMemberController.js').TeamMemberController;
 
 describe('Selection', function () {
-/*
-    it('afterUserSelectsCardExpositionShouldBeEqual', function (done) {
+
+    it.skip('afterUserSelectsCardExpositionShouldBeEqual', function (done) {    // this need to be re-thought
         var db = new FakeDB();
         var appController = new AppController(db);
         appController.createSession('scrum master', function (err, session) {
@@ -31,5 +31,5 @@ describe('Selection', function () {
             });
         });
     });
-*/
+
 });
