@@ -4,8 +4,8 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive",
-    "start": "node ./server/application.js"
+    "start": "node ./server/application.js",
+    "test": "node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000 --recursive"
   },
   "author": "Sergii Shynkaruk",
   "license": "MIT",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
+    "istanbul": "^0.2.11",
     "karma": "^0.12.14",
     "karma-chai": "^0.1.0",
     "karma-mocha": "^0.1.3",
