@@ -4,9 +4,8 @@
   "description": "Just money ....",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive",
     "start": "node ./server/application.js",
-    "coverage": "node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000 --recursive"
+    "test": "node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000 --recursive"
   },
   "author": "Sergii Shynkaruk",
   "license": "MIT",
