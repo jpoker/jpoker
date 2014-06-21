@@ -30,7 +30,7 @@ FakeDB.prototype.createUser = function(name, sessionID, callback) {
     if (!(sessionID in this.users))
         return callback('wrong session id', null);
 
-    var user = { name: name };
+    var user = { name: name, exposedCard: null };
     var id = (this.counter++).toString();
     user.id = id;
 

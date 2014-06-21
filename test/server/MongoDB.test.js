@@ -144,6 +144,15 @@ describe('MongoDB', function() {
 			});
 		});
 
+		it('should not have exposed card when created', function (done) {
+		    db.createSession('master', function (err, session) {
+		        db.createUser('user', session.id, function (err, user) {
+		            assert.isNull(user.exposedCard);
+		            done();
+		        });
+		    });
+		});
+
 	});
 	
 	describe('getUserByID', function () {
