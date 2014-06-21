@@ -15,7 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '*.js'
+      './server/*.js',
+      './test/*.js'
     ],
 
 
@@ -64,7 +65,8 @@ module.exports = function(config) {
     singleRun: true,
     plugins: [
         'karma-mocha',
-        'karma-chai'
+        'karma-chai',
+        'karma-chrome-launcher'
     ]
   });
 };
