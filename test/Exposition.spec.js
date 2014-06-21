@@ -31,7 +31,7 @@ describe('Exposition', function () {
     });
 
     it('should be available when all users laid their cards down', function (done) {
-        var fib0Card = sessionController.session.deck[0];
+        var fib0Card = sessionController.session.deck[0],
             fib1Card = sessionController.session.deck[1];
 
         masterController.provideEstimate(fib0Card);
@@ -45,6 +45,15 @@ describe('Exposition', function () {
     });
 
     it('should be unavailable when not all users laid their cards down', function (done) {
+        var someCard = sessionController.session.deck[0];
+
+        masterController.provideEstimate(someCard);	// master provides
+		// Jon does not
+
+        sessionController.getExposition(function (err, exposition) {
+			assert.notOk(exposition);
+		});
+
         done();
     });
 
