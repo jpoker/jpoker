@@ -51,10 +51,12 @@ server.get('/', function(req, res) {
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
-    appController.createSession(req.params.master_id, function (err, session) {
-        if (err)
-            return res.send('error! ' + err);
-        res.redirect('/static/session.html');
+    appController.createSession(req.params.master_id, function (err, _session) {
+        if (err) {
+            return res.json(500, {error : err});
+        }
+
+        res.json(200, {path : 'localhost:' + PORT + '/static/session.html', session : _session});
     });     
 });
 

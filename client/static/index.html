@@ -6,33 +6,18 @@
 </head>
 <body>
     Welcome to <b>JPoker</b> |
+    <script type="text/javascript" src="Requests.js"></script>
     <script type="text/javascript">
-        var on_click = function (path, params, method) {
-            method = method || "post"; // Set method to post by default if not specified.
-
-            // The rest of this code assumes you are not using a library.
-            // It can be made less wordy if you use one.
-            var form = document.createElement("form");
-            form.setAttribute("method", method);
-
-            alert("path " + path);
-            alert("params " + params);
-            for (item in params) {
-                alert("item_params " + params[item]);
-                path += "/" + document.getElementById(params[item]).value;
-            }
-
-            form.setAttribute("action", path);
-            document.body.appendChild(form);
-            form.submit();
+        var on_click = function (param) {
+            var res = Request.PostNewSession(document.getElementById(param).value, function (result) {
+                   var json = JSON.parse(result.responseText);
+                   document.write(json.path);
+            });
         };
+
     </script>
 
-    <input type="button" value="new session" onclick="on_click('/sessions/new', ['master_id'])" />
+    <input type="button" value="new session" onclick="on_click('master_id')" />
     <input id="master_id" name="master_id"/>
-
-    <!--TODO:uncomment script type="text/javascript" src="Requests.js"></!--script-->
-
-
 </body>
 </html>
