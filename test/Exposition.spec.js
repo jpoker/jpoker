@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var AppController = require('../server/AppController.js').AppController;
 var FakeDB = require('../server/FakeDB.js').FakeDB;
 var Card = require('../server/Card.js').Card;
@@ -31,19 +31,21 @@ describe('Exposition', function () {
     });
 
     it('should be available when all users laid their cards down', function (done) {
-        var fib0Card = sessionController.getCardByName('fibonacci_0'), 
-            fib1Card = sessionController.getCardByName('fibonacci_1');
+        var fib0Card = sessionController.session.deck[0];
+            fib1Card = sessionController.session.deck[1];
 
         masterController.provideEstimate(fib0Card);
-        jonController.provideEstiamte(fib1Card);
+        jonController.provideEstimate(fib1Card);
 
-        var exposition = sessionController.getExposition();
-        assert.ok(exposition);
+        sessionController.getExposition(function (err, exposition) {
+			assert.ok(exposition);
+		});
 
         done();
     });
 
     it('should be unavailable when not all users laid their cards down', function (done) {
+        done();
     });
 
 });
