@@ -57,6 +57,10 @@ SessionController.prototype.setDeck = function (deck) {
     this.session.deck = deck;
 };
 
+SessionController.prototype.getExposition = function () {
+	return null;
+};
+
 exports.SessionController = SessionController;
 
 }());

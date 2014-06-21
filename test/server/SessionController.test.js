@@ -7,7 +7,8 @@ describe('SessionController', function() {
     beforeEach(function () {
         var db = {
             createUser: function () { },
-            getUserIDsBySessionID: function () { }
+            getUserIDsBySessionID: function () { },
+			getUserByID: function () {}
         };
         session = { id: 'session-id', deck: [] };
 
@@ -89,4 +90,21 @@ describe('SessionController', function() {
 
 	});
 
+	describe('getExposition', function () {
+	
+		it('should be null when not all users providedEstimate', function (done) {
+			// TODO: stub would be better
+			dbMock.expects('getUserIDsBySessionID').returns(['Jon', 'Max']);
+			dbMock.expects('getUserByID').withArgs('Jon').returns({name: 'Jon', exposedCard: '12'});
+			dbMock.expects('getUserByID').withArgs('Max').returns({name: 'Max', exposedCard: null});
+			
+			var exposition = controller.getExposition();
+
+			assert.isNull(exposition);
+		
+			done();
+		});
+	
+	});
+	
 })
