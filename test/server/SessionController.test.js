@@ -65,4 +65,12 @@ describe('SessionController', function() {
         done();
     });
 
+    it('should assign given deck when it is not empty', function (done) {
+        var deck = ['one', 'two'];
+        controller.setDeck(deck);
+        assert.deepEqual(deck, session.deck);
+
+        done();
+    });
+
 })

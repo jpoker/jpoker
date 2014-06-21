@@ -52,7 +52,9 @@ function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
 }
 
 SessionController.prototype.setDeck = function (deck) {
-    throw Error('cannot assign empty deck');
+    if (deck.length == 0)
+        throw Error('cannot assign empty deck');
+    this.session.deck = deck;
 };
 
 exports.SessionController = SessionController;
