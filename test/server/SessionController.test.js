@@ -92,15 +92,33 @@ describe('SessionController', function() {
 
 	describe('getExposition', function () {
 	
-		it('should be null when not all users providedEstimate', function (done) {
+		it('should be null when not all users provided estimate', function (done) {
 			// TODO: stub would be better
-			dbMock.expects('getUserIDsBySessionID').returns(['Jon', 'Max']);
-			dbMock.expects('getUserByID').withArgs('Jon').returns({name: 'Jon', exposedCard: '12'});
-			dbMock.expects('getUserByID').withArgs('Max').returns({name: 'Max', exposedCard: null});
+			dbMock.expects('getUserIDsBySessionID').callsArgWith(1, null, ['Jon', 'Max']);
+			dbMock.expects('getUserByID').withArgs('Jon').callsArgWith(2, null, {name: 'Jon', exposedCard: '12'});
+			dbMock.expects('getUserByID').withArgs('Max').callsArgWith(2, null, {name: 'Max', exposedCard: null});
 			
-			var exposition = controller.getExposition();
+			var callback = sinon.spy();
+			controller.getExposition(callback);
 
-			assert.isNull(exposition);
+			assert(callback.calledOnce);
+			assert(callback.calledWith(null, null));
+		
+			done();
+		});
+		
+		it('should be dictionary when all users provide estimate', function (done) {
+			// TODO: stub would be better
+			dbMock.expects('getUserIDsBySessionID').callsArgWith(1, null, ['Jon', 'Max']);
+			dbMock.expects('getUserByID').withArgs('Jon').callsArgWith(2, null, {name: 'Jon', exposedCard: '1'});
+			dbMock.expects('getUserByID').withArgs('Max').callsArgWith(2, null, {name: 'Max', exposedCard: '2'});
+			
+			var callback = sinon.spy();
+			controller.getExposition(callback);
+
+			//console.log(callback);
+			assert(callback.calledOnce);
+			assert(callback.calledWithMatch(null, {'Jon': '1', 'Max': '2'}));
 		
 			done();
 		});

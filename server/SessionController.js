@@ -57,8 +57,17 @@ SessionController.prototype.setDeck = function (deck) {
     this.session.deck = deck;
 };
 
-SessionController.prototype.getExposition = function () {
-	return null;
+SessionController.prototype.getExposition = function (callback) {
+	this.getUsers(function (err, userList) {
+		var exposition = {};
+		for (var i in userList) {
+			var user = userList[i];
+			if (user.exposedCard == null)
+				return callback(null, null);
+			exposition[user.name] = user.exposedCard;
+		}
+		callback(null, exposition);
+	});
 };
 
 exports.SessionController = SessionController;
