@@ -122,6 +122,19 @@ describe('SessionController', function() {
 		
 			done();
 		});
+		
+		it('should return error when db returned error', function (done) {
+			var dbError = 'not found'
+			dbMock.expects('getUserIDsBySessionID').callsArgWith(1, dbError);
+			
+			var callback = sinon.spy();
+			controller.getExposition(callback);
+			
+			assert(callback.calledOnce);
+			assert(callback.calledWith(dbError));
+			
+			done();
+		});
 	
 	});
 	
