@@ -25,17 +25,23 @@ describe('Exposition', function () {
             sessionController.joinSession('Jon', function (err, jon) {
                 jonController = new TeamMemberController(jon);
 
-                done();
+				sessionController.joinSession('Max', function (err, max) {
+					maxController = new TeamMemberController(max);
+					
+					done();
+				});
             });
         });
     });
 
     it('should be available when all users laid their cards down', function (done) {
-        var fib0Card = sessionController.session.deck[0],
-            fib1Card = sessionController.session.deck[1];
+        var card0 = sessionController.session.deck[0],
+            card1 = sessionController.session.deck[1],
+			card2 = sessionController.session.deck[2];
 
-        masterController.provideEstimate(fib0Card);
-        jonController.provideEstimate(fib1Card);
+        masterController.provideEstimate(card0);
+        jonController.provideEstimate(card1);
+		maxController.provideEstimate(card2);
 
         sessionController.getExposition(function (err, exposition) {
 			assert.ok(exposition);
@@ -45,10 +51,31 @@ describe('Exposition', function () {
     });
 
     it('should be unavailable when not all users laid their cards down', function (done) {
-        var someCard = sessionController.session.deck[0];
+        var card0 = sessionController.session.deck[0],
+            card1 = sessionController.session.deck[1],
+			card2 = sessionController.session.deck[2];
 
-        masterController.provideEstimate(someCard);	// master provides
-		// Jon does not
+        masterController.provideEstimate(card0);
+        // Jon does not provide estimate
+		maxController.provideEstimate(card2);
+
+        sessionController.getExposition(function (err, exposition) {
+			assert.notOk(exposition);
+		});
+
+        done();
+    });
+
+    it('should be unavailable when some user recalled estimate', function (done) {
+        var card0 = sessionController.session.deck[0],
+            card1 = sessionController.session.deck[1],
+			card2 = sessionController.session.deck[2];
+
+        masterController.provideEstimate(card0);
+        jonController.provideEstimate(card1);
+		// master recalls
+        masterController.recallEstimate();
+		maxController.provideEstimate(card2);
 
         sessionController.getExposition(function (err, exposition) {
 			assert.notOk(exposition);
