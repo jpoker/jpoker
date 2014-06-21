@@ -56,4 +56,13 @@ describe('SessionController', function() {
         done();
     });
 
+    it('should throw when assigning empty deck', function (done) {
+        assert.throws(function () {
+            var deck = [];
+            controller.setDeck(deck);
+        }, Error, 'cannot assign empty deck');
+
+        done();
+    });
+
 })

@@ -18,7 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="test\Selection.spec.js" />
+    <Compile Include="test\Exposition.spec.js" />
     <Compile Include="test\server\AppController.test.js" />
     <Compile Include="test\server\FakeDB.test.js" />
     <Compile Include="test\server\MongoDB.test.js" />
