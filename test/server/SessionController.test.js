@@ -15,62 +15,78 @@ describe('SessionController', function() {
 
         controller = new SessionController(session, db);
     });
+	
+	describe('joinSession', function () {
 
-    it('joinSession should throw when team member name is empty', function () {
-        assert.throws(function() {
-            controller.joinSession('');
-        }, Error);
-    });
+		it('should throw when team member name is empty', function () {
+			assert.throws(function() {
+				controller.joinSession('');
+			}, Error);
+		});
 
-    it('joinSession should call db.createUser with given name', function () {
-        var userName = 'Petya Pupkin';
-        dbMock.expects('createUser').once().withArgs(userName);
+		it('should call db.createUser with given name', function () {
+			var userName = 'Petya Pupkin';
+			dbMock.expects('createUser').once().withArgs(userName);
 
-        controller.joinSession(userName);
+			controller.joinSession(userName);
 
-        dbMock.verify();
-    });
+			dbMock.verify();
+		});
 
-    it('getUser should call db.getUserIDsBySessionID with the session id', function() {
-        dbMock.expects('getUserIDsBySessionID').once().withArgs(session.id);
+	});
+		
+	describe('getUser', function () {
+	
+		it('should call db.getUserIDsBySessionID with the session id', function() {
+			dbMock.expects('getUserIDsBySessionID').once().withArgs(session.id);
 
-        controller.getUsers();
+			controller.getUsers();
 
-        dbMock.verify();
-    });
+			dbMock.verify();
+		});
 
-    it('should throw when no deck', function (done) {
-        assert.throws(function () {
-            controller.canEstimate();
-            }, Error, 'deck isn\'t available');
+	});
+		
+	describe('canEstimate', function () {
+	
+		it('should throw when no deck', function (done) {
+			assert.throws(function () {
+				controller.canEstimate();
+				}, Error, 'deck isn\'t available');
 
-        done();
-    });
+			done();
+		});
 
-    it('should not throw when there is a deck', function (done) {
-        session.deck = ['a card'];
-        assert.doesNotThrow(function () {
-            controller.canEstimate();
-            }, Error);
+		it('should not throw when there is a deck', function (done) {
+			session.deck = ['a card'];
+			assert.doesNotThrow(function () {
+				controller.canEstimate();
+				}, Error);
 
-        done();
-    });
+			done();
+		});
 
-    it('should throw when assigning empty deck', function (done) {
-        assert.throws(function () {
-            var deck = [];
-            controller.setDeck(deck);
-        }, Error, 'cannot assign empty deck');
+	});
+		
+	describe('setDeck', function () {
+	
+		it('should throw when assigning empty deck', function (done) {
+			assert.throws(function () {
+				var deck = [];
+				controller.setDeck(deck);
+			}, Error, 'cannot assign empty deck');
 
-        done();
-    });
+			done();
+		});
 
-    it('should assign given deck when it is not empty', function (done) {
-        var deck = ['one', 'two'];
-        controller.setDeck(deck);
-        assert.deepEqual(deck, session.deck);
+		it('should assign given deck when it is not empty', function (done) {
+			var deck = ['one', 'two'];
+			controller.setDeck(deck);
+			assert.deepEqual(deck, session.deck);
 
-        done();
-    });
+			done();
+		});
+
+	});
 
 })
