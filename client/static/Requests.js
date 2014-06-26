@@ -30,8 +30,6 @@ var Request = ( function () {
         xmlhttp.send( null );//request body - GET doesn't have a request body
     }
 
-    //GetUsersAsynchr();
-
     return {
         PostNewSession : function (master_id , callback) {
             xmlhttp.open( 'POST', '/sessions/new/' + master_id, true );
@@ -49,25 +47,36 @@ var Request = ( function () {
             xmlhttp.send( 'master_id=' + master_id );
         },
 
-        PostJoinSession: function ( session_id, user_id ) {
+        PostJoinSession : function ( session_id, user_id, callback) {
             xmlhttp.open( 'POST', '/sessions/edit/' + session_id + '/user/' + user_id, true );
             xmlhttp.onreadystatechange = function () {
                 if ( xmlhttp.readyState == 4 ) {
                     if ( xmlhttp.status == 200 ) {
-                        return {status : 'ok', text : xmlhttp.responseText };
+                        callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                     } else {
-                        return { status : 'error', text : xmlhttp.statusText };
+                        callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                     }
                 }
             };
 
             xmlhttp.send( 'session_id=' + session_id + '&user_id=' + user_id );
-        }};
+        },
 
-        //PostNewSession('SCRUM_MASTER');
+        PostUsersAlreadyIn : function (session_id, requestor_id, callback) {
+        xmlhttp.open( 'POST', '/session/' + session_id + '/users/' + requestor_id, true );
+        xmlhttp.onreadystatechange = function () {
+            if ( xmlhttp.readyState == 4 ) {
+                if ( xmlhttp.status == 200 ) {
+                    callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
+                }
+                else{
+                    callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
+                }
 
-        //PostJoinSession('6', 'She');
+            }
+        };
 
+        xmlhttp.send('session_id=' + session_id + '&requestor_id=' + requestor_id);//request body - GET doesn't have a request body
+    }
+        };
     })();
-
-    //synchronous requests

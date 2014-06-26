@@ -70,15 +70,30 @@ server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
             if (err)
                 return res.send('error! ' + err);
 
-            res.send('user ' + user.name + ' added to session ' + req.params.session_id);
+            res.json(200, {userData : user, session : req.params.session_id});
         });
     });
 });
 
-server.get('/session/:id/users/:info', function (req, res) {
-    res.send('connected users ' + req.params.info);
+server.post('/session/:id/users/:requestor_id', function (req, res) {
+    appController.getSessionByID(req.params.session_id, function (err, session) {
+        if (err)
+            return res.send('error! ' + err);
+
+        var sessionController = new SessionController(session, db);
+        sessionController.getUsers(function(something){
+            res.send(something);
+            });
+
+        //sessionController.getUsers(function(err, users){
+        //    if(!err)
+        //        res.json(200, {userData : users, session : req.params.session_id});
+        //    else
+        //        res.json(400, {userData : null, session : req.params.session_id});//not sure about error code
+        //    });
+    });
 });
 
 db.connect(function() {
     server.listen(PORT);
-})
+});

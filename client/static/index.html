@@ -10,14 +10,17 @@
     <script type="text/javascript">
         var on_click = function (param) {
             var res = Request.PostNewSession(document.getElementById(param).value, function (result) {
-                   var json = JSON.parse(result.responseText);
-                   document.write(json.path);
+                var json = JSON.parse(result.responseText);
+                document.write(json.path + '<br/>');
+                document.write('id: ' + json.session.id + '<br/>');
             });
         };
 
     </script>
 
     <input type="button" value="new session" onclick="on_click('master_id')" />
+
+    <label for="master_id">Scrum Master Id:</label>
     <input id="master_id" name="master_id"/>
 </body>
 </html>
