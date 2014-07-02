@@ -19,6 +19,7 @@
              "describe",
              "it",
              "beforeEach",
+             "afterEach",
              "before",
              "after"
   ]
