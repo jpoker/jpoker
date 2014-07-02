@@ -55,7 +55,7 @@ describe('MongoDB', function() {
 			});
 		});
 
-		it("should return session with specified scrum master's name when created", function (done) {
+		it('should return session with specified scrum master\'s name when created', function (done) {
 			var scrumMasterName = 'Scrum Master';
 			db.createSession(scrumMasterName, function (err, session) {
 				assert.equal(scrumMasterName, session.scrumMasterName);

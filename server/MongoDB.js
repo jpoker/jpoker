@@ -14,7 +14,7 @@ MongoDB.prototype.connect = function (callback) {
     mongoose.connect('mongodb://localhost/' + this.dbName);
     this.connection = mongoose.connection;
     this.connection.on('error', function () {
-        throw new Error("Mongoose error!");
+        throw new Error('Mongoose error!');
     });
     var self = this;
     this.connection.once('open', function () {

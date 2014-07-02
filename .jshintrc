@@ -10,6 +10,9 @@
   "boss": true,     // true: Tolerate assignments where comparisons would be expected
   "eqnull": true,   // true: Tolerate use of `== null`
   "node": true,     // Node.js
+  "quotmark": "single", // true: Enforces the use of single quotation marks
+  "undef": "true", // true: Prohibits the use of explicitly undeclared variables
+  "camelcase": "true", //  Forces all variable names to use either camelCase style or UPPER_CASE with underscores
   "predef": ["XMLHttpRequest",
              "ActiveXObject",
              "alert",

@@ -42,9 +42,9 @@ FakeDB.prototype.getUserByID = function(userID, sessionID, callback) {
     if (!(sessionID in this.users))
         return callback('wrong session id', null);
 
-    var users_in_session = this.users[sessionID];
-    if (userID in users_in_session)
-        callback(null, users_in_session[userID]);
+    var usersInSession = this.users[sessionID];
+    if (userID in usersInSession)
+        callback(null, usersInSession[userID]);
     else
         callback('not found', null);
 };
