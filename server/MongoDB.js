@@ -65,7 +65,7 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
     this.User.find({ _id: userID, sessionID: sessionID }, function (err, users) {
         if (err)
             callback(err);
-        else if (users.length == 0)
+        else if (!users.length)
             callback('not found');
         else if (users.length == 1)
             callback(null, users[0]);
@@ -85,7 +85,7 @@ MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
                 return callback(err);
 
             var userIDs = [];
-            for (var i in users)
+            for (var i = 0; i < users.length; ++i)
                 userIDs.push(users[i].id);
             callback(null, userIDs);
         });

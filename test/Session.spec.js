@@ -19,7 +19,7 @@ describe('session', function() {
 
     function names(userList) {
         var names = [];
-        for (var i in userList) {
+        for (var i = 0; i < userList.length; ++i) {
             var user = userList[i];
             names.push(user.name);
         }
