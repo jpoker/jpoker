@@ -40,7 +40,7 @@ SessionController.prototype.getUsers = function (callback) {
 };
 
 function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
-    if (index == userIDs.length)
+    if (index === userIDs.length)
         return callback(null, users);
 
     db.getUserByID(userIDs[index], sessionID, function (err, user) {

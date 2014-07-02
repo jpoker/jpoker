@@ -4,6 +4,8 @@ var FakeDB = require('../../server/FakeDB.js').FakeDB;
 
 describe('FakeDB', function () {
 
+    var db;
+
     beforeEach(function (done) {
         db = new FakeDB();
         done();
@@ -45,7 +47,7 @@ describe('FakeDB', function () {
 		});
 		
 		it("should return session with specified scrum master's name when created", function (done) {
-			var scrumMasterName = 'Scrum Master'
+			var scrumMasterName = 'Scrum Master';
 			db.createSession(scrumMasterName, function (err, session) {
 				assert.equal(scrumMasterName, session.scrumMasterName);
 				done();

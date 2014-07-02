@@ -12,12 +12,13 @@ var MongoDB = require('./MongoDB.js').MongoDB;
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
-if (server.settings.env == 'development')
+var db;
+if (server.settings.env === 'development')
 {
     console.log('using fake DB'); // TODO: switch to morgan
     db = new FakeDB();
 }
-else  if (server.settings.env == 'test' || server.settings.env == 'production')
+else  if (server.settings.env === 'test' || server.settings.env === 'production')
 {
     console.log('using ' + server.settings.env + ' MongoDB'); // TODO: switch to morgan
     db = new MongoDB(server.settings.env);
@@ -66,4 +67,4 @@ server.get('/session/:id/users/:info', function (req, res) {
 
 db.connect(function() {
     server.listen(PORT);
-})
+});

@@ -5,7 +5,8 @@ var FakeDB = require('../server/FakeDB.js').FakeDB;
 
 describe('session', function() {
 
-    var session = null;
+    var session;
+    var sessionController;
 
     beforeEach(function (done) {
         var db = new FakeDB();
@@ -18,12 +19,12 @@ describe('session', function() {
     });
 
     function names(userList) {
-        var names = [];
+        var nameList = [];
         for (var i = 0; i < userList.length; ++i) {
             var user = userList[i];
-            names.push(user.name);
+            nameList.push(user.name);
         }
-        return names;
+        return nameList;
     }
 
     describe('create', function () {
@@ -51,4 +52,4 @@ describe('session', function() {
         });
 
     });
-})
+});

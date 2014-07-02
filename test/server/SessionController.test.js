@@ -4,6 +4,10 @@ var SessionController = require('../../server/SessionController.js').SessionCont
 
 describe('SessionController', function() {
 
+    var session;
+    var dbMock;
+    var controller;
+
     beforeEach(function () {
         var db = {
             createUser: function () { },
@@ -124,7 +128,7 @@ describe('SessionController', function() {
 		});
 		
 		it('should return error when db returned error', function (done) {
-			var dbError = 'not found'
+			var dbError = 'not found';
 			dbMock.expects('getUserIDsBySessionID').callsArgWith(1, dbError);
 			
 			var callback = sinon.spy();
@@ -138,4 +142,4 @@ describe('SessionController', function() {
 	
 	});
 	
-})
+});

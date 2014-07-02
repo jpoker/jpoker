@@ -8,6 +8,11 @@ var TeamMemberController = require('../server/TeamMemberController.js').TeamMemb
 
 describe('Exposition', function () {
 
+    var db;
+    var appController;
+    var sessionController;
+    var masterController, jonController, maxController;
+
     beforeEach(function (done) {
         db = new FakeDB();
         appController = new AppController(db);
@@ -15,11 +20,11 @@ describe('Exposition', function () {
             sessionController = new SessionController(session, db);
             masterController = new TeamMemberController(master);
 
-            var deck = [new Card('fibonacci_0', '')
-                      , new Card('fibonacci_1', '')
-                      , new Card('fibonacci_2', '')
-                      , new Card('unsure', '')
-                      , new Card('coffee_break', '')];
+            var deck = [new Card('fibonacci_0', ''),
+                        new Card('fibonacci_1', ''),
+                        new Card('fibonacci_2', ''),
+                        new Card('unsure', ''),
+                        new Card('coffee_break', '')];
             sessionController.setDeck(deck);
 
             sessionController.joinSession('Jon', function (err, jon) {

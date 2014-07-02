@@ -12,7 +12,7 @@
             xmlhttp = false;
         }
     }
-    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+    if (!xmlhttp && typeof XMLHttpRequest !== 'undefined') {
         xmlhttp = new XMLHttpRequest();
     }
 
@@ -32,23 +32,23 @@
     var GetUsersAsynchr = function () {
         xmlhttp.open('GET', '/session/0/users/out_info', true);
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status == 200) {
+            if (xmlhttp.readyState === 4) {
+                if (xmlhttp.status === 200) {
                     alert(xmlhttp.responseText + ' XmlHttp - asynchronous');
                 }
             }
         };
 
         xmlhttp.send(null);//request body - GET doesn't have a request body
-    }
+    };
 
     //GetUsersAsynchr();
 
     var PostNewSession = function (master_id) {
         xmlhttp.open('POST', '/sessions/new/' + master_id, true);
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status == 200) {
+            if (xmlhttp.readyState === 4) {
+                if (xmlhttp.status === 200) {
                     alert(xmlhttp.responseText);
                 } else {
                     alert('error: ' + xmlhttp.statusText);
@@ -64,8 +64,8 @@
     var PostJoinSession = function (session_id, user_id) {
         xmlhttp.open('POST', '/sessions/edit/' + session_id + '/user/' + user_id, true);
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status == 200) {
+            if (xmlhttp.readyState === 4) {
+                if (xmlhttp.status === 200) {
                     alert(xmlhttp.responseText);
                 } else {
                     alert('error: ' + xmlhttp.statusText);

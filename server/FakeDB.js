@@ -14,17 +14,17 @@ FakeDB.prototype.createSession = function(scrumMasterName, callback) {
     session.id = id;
 
     this.sessions[id] = session;
-    this.users[id] = {}
+    this.users[id] = {};
 
     callback(null, session);
-}
+};
 
 FakeDB.prototype.getSessionByID = function(id, callback) {
     if (id in this.sessions)
         callback(null, this.sessions[id]);
     else
         callback('not found', null);
-}
+};
 
 FakeDB.prototype.createUser = function(name, sessionID, callback) {
     if (!(sessionID in this.users))
@@ -36,7 +36,7 @@ FakeDB.prototype.createUser = function(name, sessionID, callback) {
 
     this.users[sessionID][id] = user;
     callback(null, user);
-}
+};
 
 FakeDB.prototype.getUserByID = function(userID, sessionID, callback) {
     if (!(sessionID in this.users))
@@ -47,7 +47,7 @@ FakeDB.prototype.getUserByID = function(userID, sessionID, callback) {
         callback(null, users_in_session[userID]);
     else
         callback('not found', null);
-}
+};
 
 FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     if (!(sessionID in this.sessions))
@@ -59,11 +59,11 @@ FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
         userIDs.push(userID);
 
     callback(null, userIDs);
-}
+};
 
 FakeDB.prototype.connect = function (callback) {
     callback();
-}
+};
 
 exports.FakeDB = FakeDB;
 
