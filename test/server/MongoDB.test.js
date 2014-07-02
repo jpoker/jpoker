@@ -7,9 +7,10 @@ describe('MongoDB', function() {
 
     before(function (done) {
         assert.isFalse(db.connected());
-        db.connect(function () {
-            assert.isTrue(db.connected());
-            done();
+        db.connect(function (err) {
+            if (!err)
+                assert.isTrue(db.connected());
+            done(err);
         });
     });
     
@@ -55,8 +56,8 @@ describe('MongoDB', function() {
 			});
 		});
 
-		it("should return session with specified scrum master's name when created", function (done) {
-			var scrumMasterName = 'Scrum Master'
+		it('should return session with specified scrum master\'s name when created', function (done) {
+			var scrumMasterName = 'Scrum Master';
 			db.createSession(scrumMasterName, function (err, session) {
 				assert.equal(scrumMasterName, session.scrumMasterName);
 				done();            

@@ -14,7 +14,7 @@ MongoDB.prototype.connect = function (callback) {
     mongoose.connect('mongodb://localhost/' + this.dbName);
     this.connection = mongoose.connection;
     this.connection.on('error', function () {
-        throw new Error("Mongoose error!");
+        callback(new Error('Can\'t connect to Mongoose service!'));
     });
     var self = this;
     this.connection.once('open', function () {
@@ -26,29 +26,29 @@ MongoDB.prototype.connect = function (callback) {
         self.ready = true;
         callback();
     });
-}
+};
 
 MongoDB.prototype.disconnect = function (callback) {
     var self = this;
     mongoose.disconnect(function (err) {
         self.connection = null;
         self.ready = false;
-        callback();
+        callback(err);
     });
-}
+};
 
 MongoDB.prototype.connected = function () {
     return this.ready === true;
-}
+};
 
 MongoDB.prototype.createSession = function (scrumMasterName, callback) {
     var session = new this.Session({scrumMasterName: scrumMasterName});
     session.save(callback);
-}
+};
 
 MongoDB.prototype.getSessionByID = function (sessionID, callback) {
     this.Session.findById(sessionID, callback);
-}
+};
 
 MongoDB.prototype.createUser = function (userName, sessionID, callback) {
     var self = this;
@@ -59,7 +59,7 @@ MongoDB.prototype.createUser = function (userName, sessionID, callback) {
         var user = new self.User({ name: userName, sessionID: sessionID, exposedCard: null });
         user.save(callback);
     });
-}
+};
 
 MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
     this.User.find({ _id: userID, sessionID: sessionID }, function (err, users) {
@@ -67,12 +67,12 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
             callback(err);
         else if (!users.length)
             callback('not found');
-        else if (users.length == 1)
+        else if (users.length === 1)
             callback(null, users[0]);
         else
             callback('duplicated IDs');
     });
-}
+};
 
 MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     var self = this;
@@ -90,7 +90,7 @@ MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
             callback(null, userIDs);
         });
     });
-}
+};
 
 exports.MongoDB = MongoDB;
 

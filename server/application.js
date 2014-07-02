@@ -12,12 +12,13 @@ var MongoDB = require('./MongoDB.js').MongoDB;
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
 
-if (server.settings.env == 'development')
+var db;
+if (server.settings.env === 'development')
 {
     console.log('using fake DB'); // TODO: switch to morgan
     db = new FakeDB();
 }
-else  if (server.settings.env == 'test' || server.settings.env == 'production')
+else  if (server.settings.env === 'test' || server.settings.env === 'production')
 {
     console.log('using ' + server.settings.env + ' MongoDB'); // TODO: switch to morgan
     db = new MongoDB(server.settings.env);
@@ -36,7 +37,9 @@ server.get('/', function(req, res) {
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
+    /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.createSession(req.params.master_id, function (err, session) {
+    /* jshint +W106 */
         if (err)
             return res.send('error! ' + err);
         res.send('session created! ' +  session.id);  
@@ -44,6 +47,7 @@ server.post('/sessions/new/:master_id', function (req, res) {
 });
 
 server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
+    /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.getSessionByID(req.params.session_id, function (err, session) {
         if (err)
             return res.send('error! ' + err);
@@ -56,6 +60,7 @@ server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
             res.send('user ' + user.name + ' added to session ' + req.params.session_id);
         });
     });
+    /* jshint +W106 */
 });
 
 server.get('/session/:id/users/:info', function (req, res) {
@@ -66,4 +71,4 @@ server.get('/session/:id/users/:info', function (req, res) {
 
 db.connect(function() {
     server.listen(PORT);
-})
+});

@@ -24,7 +24,7 @@ AppController.prototype.createSession = function(scrumMasterName, callback) {
 
 AppController.prototype.getSessionByID = function(sessionID, callback) {
     return this.db.getSessionByID(sessionID, callback);
-}
+};
 
 exports.AppController = AppController;
 

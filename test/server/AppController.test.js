@@ -4,6 +4,9 @@ var AppController = require('../../server/AppController.js').AppController;
 
 describe('AppController', function() {
 
+    var dbMock;
+    var controller;
+
     beforeEach(function () {
         var db = {
             createSession: function () { },
@@ -80,6 +83,6 @@ describe('AppController', function() {
         controller.getSessionByID(sessionID);
 
         dbMock.verify();
-    })
+    });
 
-})
+});

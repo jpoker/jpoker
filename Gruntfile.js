@@ -8,14 +8,24 @@ module.exports = function(grunt) {
         jshintrc: '.jshintrc',
       },
       allFiles: ['client/**/*.js', 'server/**/*.js', 'test/**/*.js']
+    },
+    mocha_istanbul: {
+        coverage: {
+            src: 'test', // the folder, not the files,
+            options: {
+                recursive: true
+            }
+        }
     }
-
   });
 
   // plugins
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-mocha-istanbul');
 
   // tasks
   grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('test', ['jshint', 'mocha_istanbul:coverage']);
+//  grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
 };
 
