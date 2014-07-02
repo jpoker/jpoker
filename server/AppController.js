@@ -17,7 +17,7 @@ AppController.prototype.createSession = function(scrumMasterName, callback) {
         self.db.createUser(scrumMasterName, session.id, function (err, user) {
             if (err)
                 return callback(err);
-            callback(null, session);
+            callback(null, session, user);
         });
     });
 };

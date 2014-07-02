@@ -20,7 +20,7 @@ MongoDB.prototype.connect = function (callback) {
     this.connection.once('open', function () {
         var sessionSchema = new mongoose.Schema({ scrumMasterName: String, deck: Array });
         self.Session = mongoose.model('Session', sessionSchema);
-        var userSchema = new mongoose.Schema({name: String, sessionID: String});
+        var userSchema = new mongoose.Schema({name: String, sessionID: String, exposedCard: String});
         self.User = mongoose.model('User', userSchema);
 
         self.ready = true;
@@ -56,7 +56,7 @@ MongoDB.prototype.createUser = function (userName, sessionID, callback) {
         if (err)
             return callback(err);
 
-        var user = new self.User({ name: userName, sessionID: sessionID });
+        var user = new self.User({ name: userName, sessionID: sessionID, exposedCard: null });
         user.save(callback);
     });
 }
@@ -65,7 +65,7 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
     this.User.find({ _id: userID, sessionID: sessionID }, function (err, users) {
         if (err)
             callback(err);
-        else if (users.length == 0)
+        else if (!users.length)
             callback('not found');
         else if (users.length == 1)
             callback(null, users[0]);
@@ -85,7 +85,7 @@ MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
                 return callback(err);
 
             var userIDs = [];
-            for (var i in users)
+            for (var i = 0; i < users.length; ++i)
                 userIDs.push(users[i].id);
             callback(null, userIDs);
         });

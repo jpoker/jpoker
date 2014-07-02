@@ -15,7 +15,7 @@ SessionController.prototype.joinSession = function(teamMemberName, callback) {
 };
 
 SessionController.prototype.canEstimate = function () {
-    if (this.session.deck.length == 0)
+    if (!this.session.deck.length)
         throw new Error("deck isn't available");
 };
 /*
@@ -50,6 +50,29 @@ function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
         populateUserIDs(users, userIDs, index + 1, db, sessionID, callback);
     });
 }
+
+SessionController.prototype.setDeck = function (deck) {
+    if (!deck.length)
+        throw Error('cannot assign empty deck');
+    this.session.deck = deck;
+};
+
+SessionController.prototype.getExposition = function (callback) {
+	this.getUsers(function (err, userList) {
+		if (err)
+			return callback(err);
+			
+		var exposition = {};
+		for (var i = 0; i < userList.length; ++i) {
+			var user = userList[i];
+			if (!user.exposedCard)
+				return callback(null, null);
+			exposition[user.name] = user.exposedCard;
+		}
+		
+		callback(null, exposition);
+	});
+};
 
 exports.SessionController = SessionController;
 
