@@ -7,9 +7,10 @@ describe('MongoDB', function() {
 
     before(function (done) {
         assert.isFalse(db.connected());
-        db.connect(function () {
-            assert.isTrue(db.connected());
-            done();
+        db.connect(function (err) {
+            if (!err)
+                assert.isTrue(db.connected());
+            done(err);
         });
     });
     

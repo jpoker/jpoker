@@ -14,7 +14,7 @@ MongoDB.prototype.connect = function (callback) {
     mongoose.connect('mongodb://localhost/' + this.dbName);
     this.connection = mongoose.connection;
     this.connection.on('error', function () {
-        throw new Error('Mongoose error!');
+        callback(new Error('Can\'t connect to Mongoose service!'));
     });
     var self = this;
     this.connection.once('open', function () {
@@ -33,7 +33,7 @@ MongoDB.prototype.disconnect = function (callback) {
     mongoose.disconnect(function (err) {
         self.connection = null;
         self.ready = false;
-        callback();
+        callback(err);
     });
 };
 
