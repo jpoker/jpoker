@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./server/application.js",
-    "test": "node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000 --recursive",
+    "test": "grunt test",
     "postinstall": "node node_modules/protractor/bin/webdriver-manager update"
   },
   "author": "Sergii Shynkaruk",

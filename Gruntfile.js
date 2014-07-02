@@ -24,7 +24,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-istanbul');
 
   // tasks
-  grunt.registerTask('default', ['jshint', 'mocha_istanbul:coverage']);
+  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('test', ['jshint', 'mocha_istanbul:coverage']);
 //  grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
 };
 
