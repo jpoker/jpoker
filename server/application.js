@@ -1,8 +1,11 @@
 var http = require('http');
 var express = require('express');
 var morgan = require('morgan');
+var fs = require('fs');
+
 var server = module.exports = express();//express.createServer()
 var PORT = 9372;
+console.log('listening on port ' + PORT);
 
 var AppController = require('./AppController.js').AppController;
 var SessionController = require('./SessionController.js').SessionController;
@@ -47,7 +50,17 @@ server.post('/', function(req, res){
 
 //root of the website
 server.get('/', function(req, res) {
+    res.redirect('/create');
+});
+
+server.get('/create', function (req, res) {
     res.redirect('/static/index.html');
+});
+
+server.get('/join', function (req, res) {
+    fs.readFile('./client/static/session.html', {encoding: 'utf-8'}, function (err, data) {
+        res.send(data.replace('%SESSION_ID%', req.query.session)); // poort man's template :)
+    });
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
@@ -56,7 +69,7 @@ server.post('/sessions/new/:master_id', function (req, res) {
             return res.json(500, {error : err});
         }
 
-        res.json(200, {path : 'localhost:' + PORT + '/static/session.html', session : _session});
+        res.json(200, {joinURL: '/join?session=' + _session.id, session : _session});
     });     
 });
 

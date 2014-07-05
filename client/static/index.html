@@ -4,23 +4,32 @@
     <meta charset="UTF-8">
     <title>JPoker</title>
 </head>
+<script type="text/javascript" src="Requests.js"></script>
+<script type="text/javascript">
+    function newSession(scrumMasterName) {
+        var res = Request.PostNewSession(scrumMasterName, function (result) {
+            var json = JSON.parse(result.responseText);
+//            document.write(json.path + '<br/>');
+//            document.write('id: ' + json.session.id + '<br/>');
+            document.getElementById('createSession').style.display = 'none';
+            document.getElementById('inviteLink').href = json.joinURL;
+            document.getElementById('inviteToSession').style.display = 'block';
+        });
+    };
+
+</script>
 <body>
-    Welcome to <b>JPoker</b> |
-    <script type="text/javascript" src="Requests.js"></script>
-    <script type="text/javascript">
-        var on_click = function (param) {
-            var res = Request.PostNewSession(document.getElementById(param).value, function (result) {
-                var json = JSON.parse(result.responseText);
-                document.write(json.path + '<br/>');
-                document.write('id: ' + json.session.id + '<br/>');
-            });
-        };
+    Welcome to <b>JPoker</b>
+    <hr>
 
-    </script>
+    <div id="createSession">
+        <input type="button" value="new session" onclick="newSession(document.getElementById('masterName').value)" />
 
-    <input type="button" value="new session" onclick="on_click('master_id')" />
-
-    <label for="master_id">Scrum Master Id:</label>
-    <input id="master_id" name="master_id"/>
+        <label for="masterName">Scrum Master:</label>
+        <input id="masterName" name="masterName"/>
+    </div>
+    <div id="inviteToSession" style="display: none">
+        Share this <a href="" id="inviteLink">link</a> to invite others.
+    </div>
 </body>
 </html>
