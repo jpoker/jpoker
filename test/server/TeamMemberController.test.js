@@ -3,6 +3,9 @@ var TeamMemberController = require('../../server/TeamMemberController.js').TeamM
 
 describe('TeamMemberController', function() {
 
+    var teamMember;
+    var controller;
+
     beforeEach(function() {
         teamMember = { exposedCard: null };
         controller = new TeamMemberController(teamMember);
@@ -32,4 +35,4 @@ describe('TeamMemberController', function() {
             });
     });
 
-})
+});

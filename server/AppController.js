@@ -17,14 +17,14 @@ AppController.prototype.createSession = function(scrumMasterName, callback) {
         self.db.createUser(scrumMasterName, session.id, function (err, user) {
             if (err)
                 return callback(err);
-            callback(null, session);
+            callback(null, session, user);
         });
     });
 };
 
 AppController.prototype.getSessionByID = function(sessionID, callback) {
     return this.db.getSessionByID(sessionID, callback);
-}
+};
 
 exports.AppController = AppController;
 

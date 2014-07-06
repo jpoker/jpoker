@@ -4,6 +4,9 @@ var AppController = require('../../server/AppController.js').AppController;
 
 describe('AppController', function() {
 
+    var dbMock;
+    var controller;
+
     beforeEach(function () {
         var db = {
             createSession: function () { },
@@ -31,6 +34,19 @@ describe('AppController', function() {
         controller.createSession(scrumMaster, function () { });
 
         dbMock.verify();
+    });
+
+    it('createSession should return session and scrum master in callback', function () {
+        var scrumMaster = 'Vasya Pupkin';
+        var session = { id: 1 };
+        var user = { name: scrumMaster };
+        dbMock.expects('createSession').withArgs(scrumMaster).callsArgWith(1, null, session);
+        dbMock.expects('createUser').withArgs(scrumMaster).callsArgWith(2, null, user);
+
+        var callback = sinon.spy();
+        controller.createSession(scrumMaster, callback);
+
+        assert(callback.calledWithMatch(null, session, user));
     });
 
     it('createSession should return error when db.createSession failed', function () {
@@ -67,6 +83,6 @@ describe('AppController', function() {
         controller.getSessionByID(sessionID);
 
         dbMock.verify();
-    })
+    });
 
-})
+});

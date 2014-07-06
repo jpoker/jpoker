@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 *.orig
 *.log
 *mongo*.cmd
@@ -7,3 +7,4 @@ obj/
 *.bak
 coverage/
 _JPoker.njsproj
+test-list.txt
