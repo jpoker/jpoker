@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
-    "start": "./node_modules/.bin/supervisor ./server/application.js"
+    "start": "./node_modules/.bin/supervisor --extensions js,html ./server/application.js"
   },
   "author": "Sergii Shynkaruk",
   "license": "MIT",
