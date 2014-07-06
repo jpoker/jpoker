@@ -39,6 +39,10 @@ else {
 
 var appController = new AppController( db );
 
+function notifyUserJoined(user) {
+    io.emit('userJoined', user);
+}
+
 // This route receives the posted form.
 // As explained above, usage of 'body-parser' means
 // that `req.body` will be filled in with the form elements
@@ -124,10 +128,6 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
         });
     });
 });
-
-function notifyUserJoined(user) {
-    io.emit('userJoined', user);
-}
 
 db.connect( function () {
     console.log('listening on port ' + PORT);
