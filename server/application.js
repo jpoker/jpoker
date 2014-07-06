@@ -101,7 +101,7 @@ server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
-            io.emit('userJoined', user); // notify new user joined the session
+            notifyUserJoined(user);
             res.json( 200, { userData: user, session: req.params.session_id });
         });
     });
@@ -125,9 +125,9 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
     });
 });
 
-io.sockets.on('connection', function (socket) {
-    console.log('connected!');
-});
+function notifyUserJoined(user) {
+    io.emit('userJoined', user);
+}
 
 db.connect( function () {
     console.log('listening on port ' + PORT);
