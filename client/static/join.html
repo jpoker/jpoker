@@ -15,13 +15,17 @@
                 var json = JSON.parse(result.responseText);
                 document.write('session id: ' + json.session + ':<br/>')
                 document.write('user joined: ' + json.userData.name + '<br/>');
-            });
 
-        //Request.PostUsersAlreadyIn(session_id_val, user_id_val,
-        //    function (result) {
-        //        //var json = JSON.parse(result.responseText);
-        //        alert(result.responseText);
-        //    });
+                Request.PostUsersAlreadyIn(session_id_val, user_id_val,
+                    function (result) {
+                        var json = JSON.parse(result.responseText);
+                        document.write('<br/><br/> Users already in:<br/>');
+                        for (user in json.joinedUsers) {
+                            document.write('- ' + json.joinedUsers[user].name + '<br/>');
+                        }
+                        
+                    });
+            });
     };
 </script>
 <body>

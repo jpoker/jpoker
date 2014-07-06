@@ -72,7 +72,6 @@ var Request = ( function () {
                 else{
                     callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                 }
-
             }
         };
 
