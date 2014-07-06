@@ -53,13 +53,27 @@ server.get('/', function(req, res) {
     res.redirect('/create');
 });
 
+function render(template, vars, callback) { // poor's man template :)
+    fs.readFile(template, {encoding: 'utf-8'}, function (err, content) {
+        if (err)
+            return callback(err);
+
+        for (key in vars)
+            content = content.replace(key, vars[key]);
+
+        callback(null, content);
+    });
+}
+
 server.get('/create', function (req, res) {
-    res.redirect('/static/index.html');
+    render('./client/static/create.html', {}, function (err, content) {
+        res.send(content);
+    });
 });
 
 server.get('/join', function (req, res) {
-    fs.readFile('./client/static/session.html', {encoding: 'utf-8'}, function (err, data) {
-        res.send(data.replace('%SESSION_ID%', req.query.session)); // poort man's template :)
+    render('./client/static/join.html', {'%SESSION_ID%': req.query.session}, function (err, content) {
+        res.send(content);
     });
 });
 
