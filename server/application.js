@@ -101,6 +101,7 @@ server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
+            io.emit('userJoined', user); // notify new user joined the session
             res.json( 200, { userData: user, session: req.params.session_id });
         });
     });
