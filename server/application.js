@@ -116,11 +116,11 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
             return res.send( 'error! ' + err );
 
         var sessionController = new SessionController( session, db );
-        sessionController.getUsers( function ( err, user_list ) {
+        sessionController.getUsers( function ( err, userList ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
-            res.json( 200, { joinedUsers: user_list });
+            res.json( 200, { joinedUsers: userList });
         });
     });
 });
