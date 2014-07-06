@@ -1,11 +1,14 @@
-var http = require( 'http' );
+'use strict';
+
 var express = require( 'express' );
 var morgan = require( 'morgan' );
 var fs = require( 'fs' );
 
-var server = module.exports = express();//express.createServer()
+var server = module.exports = express();
+var http = require('http').Server(server);
+var io = require('socket.io')(http);
+
 var PORT = 9372;
-console.log( 'listening on port ' + PORT );
 
 var AppController = require( './AppController.js' ).AppController;
 var SessionController = require( './SessionController.js' ).SessionController;
@@ -121,6 +124,11 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
     });
 });
 
+io.sockets.on('connection', function (socket) {
+    console.log('connected!');
+});
+
 db.connect( function () {
-    server.listen( PORT );
+    console.log('listening on port ' + PORT);
+    http.listen( PORT );
 });

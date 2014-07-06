@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>JPoker Session</title>
 </head>
+<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/static/Requests.js"></script>
 <script type="text/javascript">
+    var socket = io();
+
     var on_click = function (session_id, user_id) {
         var session_id_val = document.getElementById(session_id).value;
         var user_id_val = document.getElementById(user_id).value;
