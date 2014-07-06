@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JPoker Session</title>
+</head>
+<script type="text/javascript" src="/static/Requests.js"></script>
+<script type="text/javascript">
+    var on_click = function (session_id, user_id) {
+        var session_id_val = document.getElementById(session_id).value;
+        var user_id_val = document.getElementById(user_id).value;
+
+        Request.PostJoinSession(session_id_val, user_id_val,
+            function (result) {
+                var json = JSON.parse(result.responseText);
+                document.write('session id: ' + json.session + ':<br/>')
+                document.write('user joined: ' + json.userData.name + '<br/>');
+
+                Request.PostUsersAlreadyIn(session_id_val, user_id_val,
+                    function (result) {
+                        var json = JSON.parse(result.responseText);
+                        document.write('<br/><br/> Users already in:<br/>');
+                        for (user in json.joinedUsers) {
+                            document.write('- ' + json.joinedUsers[user].name + '<br/>');
+                        }
+                        
+                    });
+            });
+    };
+</script>
+<body>
+Welcome to <b>JPoker</b>
+<hr>
+    <input type="button" value="join session" onclick="on_click('session_id', 'user_id')"/>
+
+    <br/>
+    <label for="user_id">Add name</label>
+    <input id="user_id" name="user_id"/>
+
+    <input id="session_id" name="session_id" value="%SESSION_ID%" type="hidden"/>
+</body>
+</html>

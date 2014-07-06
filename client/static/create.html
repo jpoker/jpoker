@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JPoker</title>
+</head>
+<script type="text/javascript" src="/static/Requests.js"></script>
+<script type="text/javascript">
+    function newSession(scrumMasterName) {
+        var res = Request.PostNewSession(scrumMasterName, function (result) {
+            var json = JSON.parse(result.responseText);
+//            document.write(json.path + '<br/>');
+//            document.write('id: ' + json.session.id + '<br/>');
+            document.getElementById('createSession').style.display = 'none';
+            document.getElementById('inviteLink').href = json.joinURL;
+            document.getElementById('inviteToSession').style.display = 'block';
+        });
+    };
+
+</script>
+<body>
+    Welcome to <b>JPoker</b>
+    <hr>
+
+    <div id="createSession">
+        <input type="button" value="new session" onclick="newSession(document.getElementById('masterName').value)" />
+
+        <label for="masterName">Scrum Master:</label>
+        <input id="masterName" name="masterName"/>
+    </div>
+    <div id="inviteToSession" style="display: none">
+        Share this <a href="" id="inviteLink">link</a> to invite others.
+    </div>
+</body>
+</html>

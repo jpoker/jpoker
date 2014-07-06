@@ -1,8 +1,11 @@
 var http = require('http');
 var express = require('express');
 var morgan = require('morgan');
+var fs = require('fs');
+
 var server = module.exports = express();//express.createServer()
 var PORT = 9372;
+console.log('listening on port ' + PORT);
 
 var AppController = require('./AppController.js').AppController;
 var SessionController = require('./SessionController.js').SessionController;
@@ -11,6 +14,11 @@ var MongoDB = require('./MongoDB.js').MongoDB;
 
 server.use(morgan('short'));
 server.use('/static', express.static(__dirname + './../client/static'));
+
+// parse urlencoded request bodies into req.body
+var bodyParser = require('body-parser');
+server.use(bodyParser.urlencoded());
+server.use(bodyParser.json());
 
 var db;
 if (server.settings.env === 'development')
@@ -31,18 +39,54 @@ else
 
 var appController = new AppController(db);
 
+// This route receives the posted form.
+// As explained above, usage of 'body-parser' means
+// that `req.body` will be filled in with the form elements
+server.post('/', function(req, res){
+  var userName = req.body.user;
+  var html = 'Hello: ' + userName + '.<br>' +
+             '<a href="/">Try again.</a>';
+  res.send(html);
+});
+
 //root of the website
 server.get('/', function(req, res) {
-    res.redirect('/static/index.html');
+    res.redirect('/create');
+});
+
+function render(template, vars, callback) { // poor's man template :)
+    fs.readFile(template, {encoding: 'utf-8'}, function (err, content) {
+        if (err)
+            return callback(err);
+
+        for (var key in vars)
+            content = content.replace(key, vars[key]);
+
+        callback(null, content);
+    });
+}
+
+server.get('/create', function (req, res) {
+    render('./client/static/create.html', {}, function (err, content) {
+        res.send(content);
+    });
+});
+
+server.get('/join', function (req, res) {
+    render('./client/static/join.html', {'%SESSION_ID%': req.query.session}, function (err, content) {
+        res.send(content);
+    });
 });
 
 server.post('/sessions/new/:master_id', function (req, res) {
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
-    appController.createSession(req.params.master_id, function (err, session) {
+    appController.createSession(req.params.master_id, function (err, _session) {
     /* jshint +W106 */
-        if (err)
-            return res.send('error! ' + err);
-        res.send('session created! ' +  session.id);  
+        if (err) {
+            return res.json(500, {error : err});
+        }
+
+        res.json(200, {joinURL: '/join?session=' + _session.id, session : _session});
     });     
 });
 
@@ -57,16 +101,31 @@ server.post('/sessions/edit/:session_id/user/:user_id', function (req, res) {
             if (err)
                 return res.send('error! ' + err);
 
-            res.send('user ' + user.name + ' added to session ' + req.params.session_id);
+            res.json(200, {userData : user, session : req.params.session_id});
         });
     });
     /* jshint +W106 */
 });
 
-server.get('/session/:id/users/:info', function (req, res) {
+server.post('/session/:id/users/:requestor_id', function (req, res) {
+    /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
+    appController.getSessionByID(req.params.session_id, function (err, session) {
+    /* jshint +W106 */
+        if (err)
+            return res.send('error! ' + err);
 
+        var sessionController = new SessionController(session, db);
+        sessionController.getUsers(function(something){
+            res.send(something);
+            });
 
-    res.send('connected users ' + req.params.info);
+        //sessionController.getUsers(function(err, users){
+        //    if(!err)
+        //        res.json(200, {userData : users, session : req.params.session_id});
+        //    else
+        //        res.json(400, {userData : null, session : req.params.session_id});//not sure about error code
+        //    });
+    });
 });
 
 db.connect(function() {

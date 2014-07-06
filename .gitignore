@@ -6,4 +6,5 @@ node_modules/
 obj/
 *.bak
 coverage/
+_JPoker.njsproj
 test-list.txt
