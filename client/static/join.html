@@ -48,9 +48,9 @@
     };
 </script>
 <body>
-Welcome to <b>JPoker</b>
-<hr>
+    Welcome to <b>JPoker</b>
     <div id='joinSession'>
+        <hr>
         <input type="button" value="join session" onclick="on_click('session_id', 'user_id')"/>
     
         <br/>
@@ -60,8 +60,11 @@ Welcome to <b>JPoker</b>
         <input id="session_id" name="session_id" value="%SESSION_ID%" type="hidden"/>
     </div>
 
-    These guys are in the room:
-    <ul id="usersInTheRoom">
-    </ul>
+    <div id="joinedUsers">
+        <hr>
+        These guys are in the room:
+        <ul id="usersInTheRoom">
+        </ul>
+    </div>
 </body>
 </html>
