@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 *.orig
 *.log
 *mongo*.cmd
@@ -6,3 +6,4 @@ node_modules
 obj/
 *.bak
 coverage/
+test-list.txt

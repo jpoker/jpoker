@@ -4,15 +4,15 @@ var Request = ( function () {
 
     var xmlhttp;
     try {
-        xmlhttp = new ActiveXObject( "Msxml2.XMLHTTP" );
+        xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
     } catch ( e ) {
         try {
-            xmlhttp = new ActiveXObject( "Microsoft.XMLHTTP" );
+            xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch ( E ) {
             xmlhttp = false;
         }
     }
-    if ( !xmlhttp && typeof XMLHttpRequest != 'undefined' ) {
+    if (!xmlhttp && typeof XMLHttpRequest !== 'undefined') {
         xmlhttp = new XMLHttpRequest();
     }
 
@@ -20,22 +20,22 @@ var Request = ( function () {
     var GetUsersAsynchr = function () {
         xmlhttp.open( 'GET', '/session/0/users/out_info', true );
         xmlhttp.onreadystatechange = function () {
-            if ( xmlhttp.readyState == 4 ) {
-                if ( xmlhttp.status == 200 ) {
+            if (xmlhttp.readyState === 4) {
+                if (xmlhttp.status === 200) {
                     alert( xmlhttp.responseText + ' XmlHttp - asynchronous' );
                 }
             }
         };
 
         xmlhttp.send( null );//request body - GET doesn't have a request body
-    }
+    };
 
     return {
-        PostNewSession : function (master_id , callback) {
-            xmlhttp.open( 'POST', '/sessions/new/' + master_id, true );
+        PostNewSession : function (masterId , callback) {
+            xmlhttp.open('POST', '/sessions/new/' + masterId, true);
             xmlhttp.onreadystatechange = function () {
-                if ( xmlhttp.readyState == 4 ) {
-                    if ( xmlhttp.status == 200 ) {
+                if (xmlhttp.readyState === 4) {
+                    if (xmlhttp.status === 200) {
                         //alert( xmlhttp.responseText );
                         callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                     } else {
@@ -44,14 +44,14 @@ var Request = ( function () {
                 }
             };
 
-            xmlhttp.send( 'master_id=' + master_id );
+            xmlhttp.send('master_id=' + masterId);
         },
 
-        PostJoinSession : function ( session_id, user_id, callback) {
-            xmlhttp.open( 'POST', '/sessions/edit/' + session_id + '/user/' + user_id, true );
+        PostJoinSession : function ( sessionId, userId, callback) {
+            xmlhttp.open('POST', '/sessions/edit/' + sessionId + '/user/' + userId, true);
             xmlhttp.onreadystatechange = function () {
-                if ( xmlhttp.readyState == 4 ) {
-                    if ( xmlhttp.status == 200 ) {
+            if (xmlhttp.readyState === 4) {
+                if (xmlhttp.status === 200) {
                         callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                     } else {
                         callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
@@ -59,14 +59,14 @@ var Request = ( function () {
                 }
             };
 
-            xmlhttp.send( 'session_id=' + session_id + '&user_id=' + user_id );
+            xmlhttp.send('session_id=' + sessionId + '&user_id=' + userId);
         },
 
-        PostUsersAlreadyIn : function (session_id, requestor_id, callback) {
-        xmlhttp.open( 'POST', '/session/' + session_id + '/users/' + requestor_id, true );
+        PostUsersAlreadyIn : function (sessionId, requestorId, callback) {
+        xmlhttp.open( 'POST', '/session/' + sessionId + '/users/' + requestorId, true );
         xmlhttp.onreadystatechange = function () {
-            if ( xmlhttp.readyState == 4 ) {
-                if ( xmlhttp.status == 200 ) {
+            if ( xmlhttp.readyState === 4 ) {
+                if ( xmlhttp.status === 200 ) {
                     callback({'status' : xmlhttp.status, 'responseText' : xmlhttp.responseText});
                 }
                 else{
@@ -76,7 +76,7 @@ var Request = ( function () {
             }
         };
 
-        xmlhttp.send('session_id=' + session_id + '&requestor_id=' + requestor_id);//request body - GET doesn't have a request body
+        xmlhttp.send('session_id=' + sessionId + '&requestor_id=' + requestorId);//request body - GET doesn't have a request body
     }
         };
     })();

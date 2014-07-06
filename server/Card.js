@@ -5,7 +5,7 @@
 function Card(name, description) {
     this.name = name;
     this.description = description;
-};
+}
 
 Card.prototype.setName = function (name) {
     this.name = name;
@@ -30,7 +30,7 @@ function Exposition(name, description, state) {
     this.state = state;
 }
 
-Exposition.prototype = new Card;
+//Exposition.prototype = new Card; // Exposition is no longer inherits from Card or was it something else?
 
 exports.Card = Card;
 exports.Exposition = Exposition;
