@@ -36,6 +36,13 @@ else {
 
 var appController = new AppController( db );
 
+var router = express.Router();
+
+// middleware to use for all requests
+router.use(function(req, res, next) {
+	next(); // make sure we go to the next routes and don't stop here
+});
+
 // This route receives the posted form.
 // As explained above, usage of 'body-parser' means
 // that `req.body` will be filled in with the form elements
@@ -75,9 +82,9 @@ server.get( '/join', function ( req, res ) {
     });
 });
 
-server.post( '/sessions/new/:master_id', function ( req, res ) {
+router.route('/sessions').post(function(req, res) {
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
-    appController.createSession( req.params.master_id, function ( err, _session ) {
+    appController.createSession( req.query.name, function ( err, _session ) {
         /* jshint +W106 */
         if ( err ) {
             return res.json( 500, { error: err });
@@ -87,14 +94,19 @@ server.post( '/sessions/new/:master_id', function ( req, res ) {
     });
 });
 
-server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
+router.route('/sessions/:session_id/users').post(function(req, res){
+    console.log('req.params.session_id: ' + req.params.session_id);
+
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.getSessionByID( req.params.session_id, function ( err, session ) {
+        console.log('req.params.session_id: ' + req.params.session_id);
         if ( err )
             return res.send( 'error! ' + err );
 
         var sessionController = new SessionController( session, db );
-        sessionController.joinSession( req.params.user_id, function ( err, user ) {
+
+        console.log('req.query.user = ' + req.query.user);
+        sessionController.joinSession( req.query.user, function ( err, user ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
@@ -104,7 +116,25 @@ server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
     /* jshint +W106 */
 });
 
-server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
+//router.route('/sessions/:session_id/users').post(function(req, res) {
+//    /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
+//    appController.getSessionByID( req.params.session_id, function ( err, session ) {
+//    /* jshint +W106 */
+//        if ( err )
+//            return res.send( 'error! ' + err );
+
+//        var sessionController = new SessionController( session, db );
+//        sessionController.getUsers( function ( err, userList ) {
+//            console.log('userList: ' + userList);
+//            if ( err )
+//                return res.send( 'error! ' + err );
+
+//            res.json( 200, { joinedUsers: userList });
+//        });
+//    });
+//});
+
+server.post( 'api/sessions/:session_id/users', function ( req, res ) {
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.getSessionByID( req.params.id, function ( err, session ) {
         /* jshint +W106 */
@@ -120,6 +150,8 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
         });
     });
 });
+
+server.use('/api', router);
 
 db.connect( function () {
     server.listen( PORT );

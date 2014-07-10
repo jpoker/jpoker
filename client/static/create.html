@@ -9,8 +9,6 @@
     function newSession(scrumMasterName) {
         var res = Request.PostNewSession(scrumMasterName, function (result) {
             var json = JSON.parse(result.responseText);
-//            document.write(json.path + '<br/>');
-//            document.write('id: ' + json.session.id + '<br/>');
             document.getElementById('createSession').style.display = 'none';
             document.getElementById('inviteLink').href = json.joinURL;
             document.getElementById('inviteToSession').style.display = 'block';
