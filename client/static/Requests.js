@@ -48,7 +48,7 @@ var Request = ( function () {
         },
 
         PostJoinSession : function ( sessionId, userId, callback) {
-            xmlhttp.open('POST', 'api/sessions/' + sessionId + '/users?user=' + userId, true);
+            xmlhttp.open('POST', '/api/sessions/' + sessionId + '/users?user=' + userId, true);
             xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState === 4) {
                 if (xmlhttp.status === 200) {
@@ -63,7 +63,7 @@ var Request = ( function () {
         },
 
         PostUsersAlreadyIn : function (sessionId, requestorId, callback) {
-        xmlhttp.open( 'POST', 'api/sessions/' + sessionId + '/users', true );
+        xmlhttp.open( 'GET', '/api/sessions/' + sessionId + '/users', true );
         xmlhttp.onreadystatechange = function () {
             if ( xmlhttp.readyState === 4 ) {
                 if ( xmlhttp.status === 200 ) {

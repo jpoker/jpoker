@@ -96,12 +96,13 @@ router.route('/sessions').post(function(req, res) {
 
 router.route('/sessions/:session_id/users').post(function(req, res){
     console.log('req.params.session_id: ' + req.params.session_id);
+    console.log('req.query.user = ' + req.query.user);
 
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.getSessionByID( req.params.session_id, function ( err, session ) {
         console.log('req.params.session_id: ' + req.params.session_id);
         if ( err )
-            return res.send( 'error! ' + err );
+            return res.send( 'session error! ' + err );
 
         var sessionController = new SessionController( session, db );
 
@@ -116,33 +117,16 @@ router.route('/sessions/:session_id/users').post(function(req, res){
     /* jshint +W106 */
 });
 
-//router.route('/sessions/:session_id/users').post(function(req, res) {
-//    /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
-//    appController.getSessionByID( req.params.session_id, function ( err, session ) {
-//    /* jshint +W106 */
-//        if ( err )
-//            return res.send( 'error! ' + err );
-
-//        var sessionController = new SessionController( session, db );
-//        sessionController.getUsers( function ( err, userList ) {
-//            console.log('userList: ' + userList);
-//            if ( err )
-//                return res.send( 'error! ' + err );
-
-//            res.json( 200, { joinedUsers: userList });
-//        });
-//    });
-//});
-
-server.post( 'api/sessions/:session_id/users', function ( req, res ) {
+router.route('/sessions/:session_id/users').get(function(req, res) {
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
-    appController.getSessionByID( req.params.id, function ( err, session ) {
-        /* jshint +W106 */
+    appController.getSessionByID( req.params.session_id, function ( err, session ) {
+    /* jshint +W106 */
         if ( err )
             return res.send( 'error! ' + err );
 
         var sessionController = new SessionController( session, db );
         sessionController.getUsers( function ( err, userList ) {
+            console.log('userList: ' + userList);
             if ( err )
                 return res.send( 'error! ' + err );
 
