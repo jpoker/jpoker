@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('chai').assert;
-var app = require('../../server/application.js')
+var app = require('../../server/application.js');
 var request = require('supertest');
 
 describe('session api', function () {
