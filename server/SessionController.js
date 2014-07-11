@@ -2,6 +2,8 @@
 
 (function () {
 
+var async = require('async');
+
 function SessionController(session, db) {
     this.session = session;
     this.db = db;
@@ -35,21 +37,13 @@ SessionController.prototype.getUsers = function (callback) {
         if (err)
             return callback(err);
 
-        populateUserIDs([], userIDs, 0, self.db, self.session.id, callback);
+        async.map(userIDs, 
+            function (userId, callback) {
+                self.db.getUserByID(userId, self.session.id, callback);
+            },
+            callback);
     });
 };
-
-function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
-    if (index === userIDs.length)
-        return callback(null, users);
-
-    db.getUserByID(userIDs[index], sessionID, function (err, user) {
-        if (err)
-            return callback(err);
-        users.push(user);
-        populateUserIDs(users, userIDs, index + 1, db, sessionID, callback);
-    });
-}
 
 SessionController.prototype.setDeck = function (deck) {
     if (!deck.length)

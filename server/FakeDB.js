@@ -2,6 +2,8 @@
 
 (function() {
 
+var async = require('async');
+
 function FakeDB() {
     this.sessions = {};
     this.users = {};
@@ -53,12 +55,11 @@ FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     if (!(sessionID in this.sessions))
         return callback(new Error('not found'), null);
 
-    var userIDs = [];
-
-    for (var userID in this.users[sessionID])
-        userIDs.push(userID);
-
-    callback(null, userIDs);
+    async.map(this.users[sessionID], 
+        function (userID, callback) {
+            callback(null, userID);
+        },
+        callback);
 };
 
 FakeDB.prototype.connect = function (callback) {
