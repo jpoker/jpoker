@@ -1,24 +1,45 @@
 'use strict';
 
-var assert = require('chai').assert;
+var expect = require('chai').expect;
 var app = require('../../server/application.js');
 var request = require('supertest');
 
 describe('session api', function () {
 
-    it('should create session on POST /sessions/new', function (done) {
+    var sessionId;
+
+    it('should create session', function (done) {
         request(app)
-            .post('/sessions/new/Vasya')
+            .post('/api/sessions?name=Vasya')
 //            .send({name: 'Master'})
             .expect(200)
-            .expect('session created! 1', done);
+            .end(function (err, res) {
+                if (err)
+                    done(err);
+
+                expect(res.body).to.have.property('session');
+                expect(res.body.session).to.have.property('id');
+                sessionId = res.body.session.id;
+
+                expect(res.body.joinURL).to.be.equal('/join?session=' + sessionId);
+
+                done();
+            });
     });
 
-    it('should join session on POST /sessions/edit', function (done) {
+    it('should join session', function (done) {
         request(app)
-            .post('/sessions/edit/1/user/Petya')
+            .post('/api/sessions/' + sessionId + '/users?name=Petya')
             .expect(200)
-            .expect('user Petya added to session 1', done);
+            .end(function (err, res) {
+                if (err)
+                    done(err);
+
+                expect(res.body).to.have.property('user');
+                expect(res.body.user).to.have.property('id');
+
+                done();
+            });
     });
 
 });

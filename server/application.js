@@ -95,23 +95,18 @@ router.route('/sessions').post(function(req, res) {
 });
 
 router.route('/sessions/:session_id/users').post(function(req, res){
-    console.log('req.params.session_id: ' + req.params.session_id);
-    console.log('req.query.user = ' + req.query.user);
-
     /* jshint -W106 */  // disabled jshint warning about using non-camelcase names
     appController.getSessionByID( req.params.session_id, function ( err, session ) {
-        console.log('req.params.session_id: ' + req.params.session_id);
         if ( err )
             return res.send( 'session error! ' + err );
 
         var sessionController = new SessionController( session, db );
 
-        console.log('req.query.user = ' + req.query.user);
         sessionController.joinSession( req.query.user, function ( err, user ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
-            res.json( 200, { userData: user, session: req.params.session_id });
+            res.json( 200, { user: user });
         });
     });
     /* jshint +W106 */
