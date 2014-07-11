@@ -23,12 +23,12 @@ FakeDB.prototype.getSessionByID = function(id, callback) {
     if (id in this.sessions)
         callback(null, this.sessions[id]);
     else
-        callback('not found', null);
+        callback(new Error('not found'), null);
 };
 
 FakeDB.prototype.createUser = function(name, sessionID, callback) {
     if (!(sessionID in this.users))
-        return callback('wrong session id', null);
+        return callback(new Error('wrong session id'), null);
 
     var user = { name: name, exposedCard: null };
     var id = (this.counter++).toString();
@@ -40,18 +40,18 @@ FakeDB.prototype.createUser = function(name, sessionID, callback) {
 
 FakeDB.prototype.getUserByID = function(userID, sessionID, callback) {
     if (!(sessionID in this.users))
-        return callback('wrong session id', null);
+        return callback(new Error('wrong session id'), null);
 
     var usersInSession = this.users[sessionID];
     if (userID in usersInSession)
         callback(null, usersInSession[userID]);
     else
-        callback('not found', null);
+        callback(new Error('not found'), null);
 };
 
 FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     if (!(sessionID in this.sessions))
-        return callback('not found', null);
+        return callback(new Error('not found'), null);
 
     var userIDs = [];
 

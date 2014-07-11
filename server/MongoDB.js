@@ -66,11 +66,11 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
         if (err)
             callback(err);
         else if (!users.length)
-            callback('not found');
+            callback(new Error('not found'));
         else if (users.length === 1)
             callback(null, users[0]);
         else
-            callback('duplicated IDs');
+            callback(new Error('duplicated IDs'));
     });
 };
 

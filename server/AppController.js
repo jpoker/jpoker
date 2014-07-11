@@ -8,7 +8,7 @@ function AppController(db) {
 
 AppController.prototype.createSession = function(scrumMasterName, callback) {
     if (scrumMasterName === '')
-        throw new Error('scrum master\'s name cannot be empty!');
+        return callback(new Error('scrum master\'s name cannot be empty!'));
 
     var self = this;
     this.db.createSession(scrumMasterName, function (err, session) {

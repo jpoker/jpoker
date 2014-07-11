@@ -17,11 +17,11 @@ describe('AppController', function() {
         controller = new AppController(db);
     });
 
-    it('createSession should throw when scrum master name is empty', function () {
-        var controller = new AppController();
-        assert.throws(function () {
-            controller.createSession('');
-            }, Error);
+    it('createSession should return error when scrum master name is empty', function () {
+        var callback = sinon.spy();
+        controller.createSession('', callback);
+        
+        assert(callback.calledWithMatch(new Error()));
     });
 
     it('createSession should call db.createSession and db.createUser with given scrum master user', function () {

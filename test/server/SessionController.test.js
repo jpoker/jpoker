@@ -24,9 +24,11 @@ describe('SessionController', function() {
 	describe('joinSession', function () {
 
 		it('should throw when team member name is empty', function () {
-			assert.throws(function() {
-				controller.joinSession('');
-			}, Error);
+            var callback = sinon.spy();
+
+            controller.joinSession('', callback);
+
+			assert(callback.calledWithMatch(new Error()));
 		});
 
 		it('should call db.createUser with given name', function () {

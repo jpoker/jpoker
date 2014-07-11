@@ -9,7 +9,7 @@ function SessionController(session, db) {
 
 SessionController.prototype.joinSession = function(teamMemberName, callback) {
     if (teamMemberName === '')
-        throw new Error('team member\'s name cannot be empty');
+        callback(new Error('team member\'s name cannot be empty'));
 
     this.db.createUser(teamMemberName, this.session.id, callback);
 };
@@ -53,7 +53,7 @@ function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
 
 SessionController.prototype.setDeck = function (deck) {
     if (!deck.length)
-        throw Error('cannot assign empty deck');
+        throw new Error('cannot assign empty deck');
     this.session.deck = deck;
 };
 
