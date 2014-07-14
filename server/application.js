@@ -1,11 +1,14 @@
-var http = require( 'http' );
+'use strict';
+
 var express = require( 'express' );
 var morgan = require( 'morgan' );
 var ejs = require( 'ejs' );
 
-var server = module.exports = express();//express.createServer()
+var server = module.exports = express();
+var http = require('http').Server(server);
+var io = require('socket.io')(http);
+
 var PORT = 9372;
-console.log( 'listening on port ' + PORT );
 
 var AppController = require( './AppController.js' ).AppController;
 var SessionController = require( './SessionController.js' ).SessionController;
@@ -40,6 +43,10 @@ else {
 }
 
 var appController = new AppController( db );
+
+function notifyUserJoined(user) {
+    io.emit('userJoined', user);
+}
 
 // This route receives the posted form.
 // As explained above, usage of 'body-parser' means
@@ -89,6 +96,7 @@ server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
+            notifyUserJoined(user);
             res.json( 200, { userData: user, session: req.params.session_id });
         });
     });
@@ -113,5 +121,6 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
 });
 
 db.connect( function () {
-    server.listen( PORT );
+    console.log('listening on port ' + PORT);
+    http.listen( PORT );
 });
