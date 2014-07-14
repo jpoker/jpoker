@@ -4,39 +4,67 @@
     <meta charset="UTF-8">
     <title>JPoker Session</title>
 </head>
+<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/static/Requests.js"></script>
 <script type="text/javascript">
+    var userName;
+
+    var socket = io();
+
+    socket.on('userJoined', function (user) {
+        if (user.name === userName)  // TODO: this is a hack against duplicate addition
+            return;
+
+        appendUser(user.name);
+    });
+
+    function appendUser(name) {
+        var newLi = document.createElement('li');
+        var text = document.createTextNode(name);
+        newLi.appendChild(text);
+        document.getElementById('usersInTheRoom').appendChild(newLi);
+    }
+
     var on_click = function (session_id, user_id) {
         var session_id_val = document.getElementById(session_id).value;
         var user_id_val = document.getElementById(user_id).value;
 
+        userName = user_id_val;
+
         Request.PostJoinSession(session_id_val, user_id_val,
             function (result) {
+                document.getElementById('joinSession').style.display = 'none';
+
                 var json = JSON.parse(result.responseText);
-                document.write('session id: ' + json.session + ':<br/>')
-                document.write('user joined: ' + json.userData.name + '<br/>');
 
                 Request.PostUsersAlreadyIn(session_id_val, user_id_val,
                     function (result) {
                         var json = JSON.parse(result.responseText);
-                        document.write('<br/><br/> Users already in:<br/>');
-                        for (user in json.joinedUsers) {
-                            document.write('- ' + json.joinedUsers[user].name + '<br/>');
+                        for (var user in json.joinedUsers) {
+                            appendUser(json.joinedUsers[user].name);
                         }
-                        
                     });
             });
     };
 </script>
 <body>
-Welcome to <b>JPoker</b>
-<hr>
-    <input type="button" value="join session" onclick="on_click('session_id', 'user_id')"/>
+    Welcome to <b>JPoker</b>
+    <div id='joinSession'>
+        <hr>
+        <input type="button" value="join session" onclick="on_click('session_id', 'user_id')"/>
+    
+        <br/>
+        <label for="user_id">Add name</label>
+        <input id="user_id" name="user_id"/>
 
-    <br/>
-    <label for="user_id">Add name</label>
-    <input id="user_id" name="user_id"/>
+        <input id="session_id" name="session_id" value="%SESSION_ID%" type="hidden"/>
+    </div>
 
-    <input id="session_id" name="session_id" value="%SESSION_ID%" type="hidden"/>
+    <div id="joinedUsers">
+        <hr>
+        These guys are in the room:
+        <ul id="usersInTheRoom">
+        </ul>
+    </div>
 </body>
 </html>
