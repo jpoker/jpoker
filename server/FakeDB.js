@@ -55,7 +55,7 @@ FakeDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
     if (!(sessionID in this.sessions))
         return callback(new Error('not found'), null);
 
-    async.map(this.users[sessionID], 
+    async.map(Object.keys(this.users[sessionID]), 
         function (userID, callback) {
             callback(null, userID);
         },
