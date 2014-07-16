@@ -1,11 +1,14 @@
-var http = require( 'http' );
+'use strict';
+
 var express = require( 'express' );
 var morgan = require( 'morgan' );
-var fs = require( 'fs' );
+var ejs = require( 'ejs' );
 
-var server = module.exports = express();//express.createServer()
+var server = module.exports = express();
+var http = require('http').Server(server);
+var io = require('socket.io')(http);
+
 var PORT = 9372;
-console.log( 'listening on port ' + PORT );
 
 var AppController = require( './AppController.js' ).AppController;
 var SessionController = require( './SessionController.js' ).SessionController;
@@ -14,6 +17,11 @@ var MongoDB = require( './MongoDB.js' ).MongoDB;
 
 server.use( morgan( 'short' ) );
 server.use( '/static', express.static( __dirname + './../client/static' ) );
+
+// use ejs as rendering engine
+server.engine('.html', ejs.__express);
+server.set('views', __dirname + './../client');
+server.set('view engine', 'html');
 
 // parse urlencoded request bodies into req.body
 var bodyParser = require( 'body-parser' );
@@ -36,6 +44,10 @@ else {
 
 var appController = new AppController( db );
 
+function notifyUserJoined(user) {
+    io.emit('userJoined', user);
+}
+
 // This route receives the posted form.
 // As explained above, usage of 'body-parser' means
 // that `req.body` will be filled in with the form elements
@@ -51,28 +63,14 @@ server.get( '/', function ( req, res ) {
     res.redirect( '/create' );
 });
 
-function render( template, vars, callback ) { // poor's man template :)
-    fs.readFile( template, { encoding: 'utf-8' }, function ( err, content ) {
-        if ( err )
-            return callback( err );
-
-        for ( var key in vars )
-            content = content.replace( key, vars[key] );
-
-        callback( null, content );
-    });
-}
-
 server.get( '/create', function ( req, res ) {
-    render( './client/static/create.html', {}, function ( err, content ) {
+    res.render( 'create', {}, function ( err, content ) {
         res.send( content );
     });
 });
 
 server.get( '/join', function ( req, res ) {
-    render( './client/static/join.html', { '%SESSION_ID%': req.query.session }, function ( err, content ) {
-        res.send( content );
-    });
+    res.render( 'join', { 'sessionId': req.query.session });
 });
 
 server.post( '/sessions/new/:master_id', function ( req, res ) {
@@ -98,6 +96,7 @@ server.post( '/sessions/edit/:session_id/user/:user_id', function ( req, res ) {
             if ( err )
                 return res.send( 'error! ' + err );
 
+            notifyUserJoined(user);
             res.json( 200, { userData: user, session: req.params.session_id });
         });
     });
@@ -122,5 +121,6 @@ server.post( '/session/:id/users/:requestor_id', function ( req, res ) {
 });
 
 db.connect( function () {
-    server.listen( PORT );
+    console.log('listening on port ' + PORT);
+    http.listen( PORT );
 });
