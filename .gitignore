@@ -8,3 +8,5 @@ obj/
 coverage/
 _JPoker.njsproj
 test-list.txt
+*.sln
+*.njsproj
