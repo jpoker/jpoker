@@ -19,21 +19,9 @@ describe('AppController', function() {
 
     it('createSession should return error when scrum master name is empty', function () {
         var callback = sinon.spy();
-        controller.createSession('', callback);
-        
-        assert(callback.calledWithMatch(new Error()));
-    });
-
-    it('createSession should call db.createSession and db.createUser with given scrum master user', function () {
-        var scrumMaster = 'Vasya Pupkin';
-        var session = { id: 1 };
-        var user = { name: scrumMaster };
-        dbMock.expects('createSession').withArgs(scrumMaster).callsArgWith(1, null, session);
-        dbMock.expects('createUser').withArgs(scrumMaster).callsArgWith(2, null, user);
-
-        controller.createSession(scrumMaster, function () { });
-
-        dbMock.verify();
+        controller.createSession('', function (err) {
+            assert.ok(err);
+        });
     });
 
     it('createSession should return session and scrum master in callback', function () {
@@ -43,10 +31,12 @@ describe('AppController', function() {
         dbMock.expects('createSession').withArgs(scrumMaster).callsArgWith(1, null, session);
         dbMock.expects('createUser').withArgs(scrumMaster).callsArgWith(2, null, user);
 
-        var callback = sinon.spy();
-        controller.createSession(scrumMaster, callback);
-
-        assert(callback.calledWithMatch(null, session, user));
+        controller.createSession(scrumMaster, function (err, _session, _user) {
+            assert.isNull(err);
+            assert.deepEqual(session, _session);
+            assert.deepEqual(user, _user);
+            dbMock.verify();
+        });
     });
 
     it('createSession should return error when db.createSession failed', function () {
@@ -55,11 +45,10 @@ describe('AppController', function() {
         dbMock.expects('createUser').never();
         var callback = sinon.spy();
 
-        controller.createSession('Vasya', callback);
-
-        dbMock.verify();
-        assert(callback.calledOnce);
-        assert(callback.calledWith(dbError));
+        controller.createSession('Vasya', function (err) {
+            assert.deepEqual(err, dbError);
+            dbMock.verify();
+        });
     });
 
     it('createSession should return error when db.createUser failed', function () {
@@ -69,20 +58,19 @@ describe('AppController', function() {
         dbMock.expects('createUser').callsArgWith(2, userError);
         var callback = sinon.spy();
 
-        controller.createSession('Vasya', callback);
-
-        dbMock.verify();
-        assert(callback.calledOnce);
-        assert(callback.calledWith(userError));
+        controller.createSession('Vasya', function (err) {
+            assert.deepEqual(err, userError);
+            dbMock.verify();
+        });
     });
 
     it('getSessionByID should call db.getSessionByID', function () {
         var sessionID = 'session-id';
         dbMock.expects('getSessionByID').once().withArgs(sessionID);
 
-        controller.getSessionByID(sessionID);
-
-        dbMock.verify();
+        controller.getSessionByID(sessionID, function () {
+            dbMock.verify();
+        });
     });
 
 });
