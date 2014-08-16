@@ -2,6 +2,7 @@
 
 (function() {
 
+var async = require('async');
 var mongoose = require('mongoose');
 
 function MongoDB(dbName) {
@@ -66,11 +67,11 @@ MongoDB.prototype.getUserByID = function (userID, sessionID, callback) {
         if (err)
             callback(err);
         else if (!users.length)
-            callback('not found');
+            callback(new Error('not found'));
         else if (users.length === 1)
             callback(null, users[0]);
         else
-            callback('duplicated IDs');
+            callback(new Error('duplicated IDs'));
     });
 };
 
@@ -84,10 +85,12 @@ MongoDB.prototype.getUserIDsBySessionID = function (sessionID, callback) {
             if (err)
                 return callback(err);
 
-            var userIDs = [];
-            for (var i = 0; i < users.length; ++i)
-                userIDs.push(users[i].id);
-            callback(null, userIDs);
+            // return array of user.id's
+            async.map(users, 
+                function (user, callback) {
+                    callback(null, user.id);
+                },
+                callback);
         });
     });
 };

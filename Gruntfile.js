@@ -13,7 +13,8 @@ module.exports = function(grunt) {
         coverage: {
             src: 'test', // the folder, not the files,
             options: {
-                recursive: true
+                recursive: true,
+                reporter: 'spec'
             }
         }
     }

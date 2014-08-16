@@ -2,6 +2,8 @@
 
 (function () {
 
+var async = require('async');
+
 function SessionController(session, db) {
     this.session = session;
     this.db = db;
@@ -9,7 +11,7 @@ function SessionController(session, db) {
 
 SessionController.prototype.joinSession = function(teamMemberName, callback) {
     if (teamMemberName === '')
-        throw new Error('team member\'s name cannot be empty');
+        callback(new Error('team member\'s name cannot be empty'));
 
     this.db.createUser(teamMemberName, this.session.id, callback);
 };
@@ -35,25 +37,17 @@ SessionController.prototype.getUsers = function (callback) {
         if (err)
             return callback(err);
 
-        populateUserIDs([], userIDs, 0, self.db, self.session.id, callback);
+        async.map(userIDs, 
+            function (userId, callback) {
+                self.db.getUserByID(userId, self.session.id, callback);
+            },
+            callback);
     });
 };
 
-function populateUserIDs(users, userIDs, index, db, sessionID, callback) {
-    if (index === userIDs.length)
-        return callback(null, users);
-
-    db.getUserByID(userIDs[index], sessionID, function (err, user) {
-        if (err)
-            return callback(err);
-        users.push(user);
-        populateUserIDs(users, userIDs, index + 1, db, sessionID, callback);
-    });
-}
-
 SessionController.prototype.setDeck = function (deck) {
     if (!deck.length)
-        throw Error('cannot assign empty deck');
+        throw new Error('cannot assign empty deck');
     this.session.deck = deck;
 };
 

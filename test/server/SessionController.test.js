@@ -24,9 +24,11 @@ describe('SessionController', function() {
 	describe('joinSession', function () {
 
 		it('should throw when team member name is empty', function () {
-			assert.throws(function() {
-				controller.joinSession('');
-			}, Error);
+            var callback = sinon.spy();
+
+            controller.joinSession('', callback);
+
+			assert(callback.calledWithMatch(new Error()));
 		});
 
 		it('should call db.createUser with given name', function () {
@@ -127,7 +129,7 @@ describe('SessionController', function() {
 			done();
 		});
 		
-		it('should return error when db returned error', function (done) {
+		it('should return error when db returned error', function (done) {    // TODO: remove (done)
 			var dbError = 'not found';
 			dbMock.expects('getUserIDsBySessionID').callsArgWith(1, dbError);
 			
@@ -141,5 +143,19 @@ describe('SessionController', function() {
 		});
 	
 	});
+
+    describe('getUsers', function () {
+
+        it('should call db getUserByID for every user in session', function () {
+            dbMock.expects('getUserIDsBySessionID').callsArgWith(1, null, ['Jon', 'Max']);
+            dbMock.expects('getUserByID').withArgs('Jon');
+            dbMock.expects('getUserByID').withArgs('Max');
+
+            controller.getUsers();
+
+            dbMock.verify();
+        });
+
+    });
 	
 });
